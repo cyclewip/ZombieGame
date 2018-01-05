@@ -1,5 +1,6 @@
 package com.company;
 
+<<<<<<< HEAD
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
@@ -53,3 +54,14 @@ public class Main {
     }
 }
 
+=======
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName(“UTF8”));
+
+        
+    }
+}
+>>>>>>> bf168b495c5acbd47c743fce59d08c42924c5709
