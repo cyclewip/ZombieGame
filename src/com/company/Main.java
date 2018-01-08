@@ -29,6 +29,7 @@ public class Main {
 
                 rend.draw();
 
+//                rend.terminal.flush();
 
                 key = rend.terminal.readInput();
             }

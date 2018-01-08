@@ -4,6 +4,10 @@ import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 
+//import com.googlecode.lanterna.graphics.Styleset;
+//import com.googlecode.lanterna.graphics.TextGraphics;
+//import com.googlecode.lanterna.TextColor.ANSI;
+
 import java.io.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,12 +23,12 @@ public class Renderer {
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
 
+
     boolean isAWall = false;
     char[][] map = new char[20][70];
 
     static Timer timer;
     static int interval = 0;
-
     Random rand = new Random();
 
 
@@ -74,16 +78,37 @@ public class Renderer {
 //        enemy.setX(posX);
 //        enemy.setY(posY);
 
-        if (map[enemy.y][enemy.x] == '-') {
+//        if (map[enemy.y][enemy.x] == '-') {
+//            isAWall = true;
+//        }
+//        enemy.checkForWall();
+//        if (map[enemy.tempPosY][enemy.tempPosX] == '-') {
+//            isAWall = true;
+//        }
+//
+//        if (!isAWall) {
+//            isAWall = false;
+//            enemy.update();
+//            terminal.moveCursor(enemy.x, enemy.y);
+//            terminal.putCharacter('E');
+//        }
+
+        if (map[enemy.tempPosY][enemy.tempPosX] != '-') {
+
             isAWall = true;
+            enemy.checkForWall();
+            enemy.update();
         }
         enemy.update();
-        if (!isAWall) {
-            isAWall = false;
+        terminal.moveCursor(enemy.x, enemy.y);
+        terminal.putCharacter('E');
+//                if (!isAWall) {
+//            isAWall = false;
+//            enemy.update();
+//            terminal.moveCursor(enemy.x, enemy.y);
+//            terminal.putCharacter('E');
+//        }
 
-            terminal.moveCursor(enemy.x, enemy.y);
-            terminal.putCharacter('E');
-        }
     }
 
     public void renderScores() {
@@ -121,6 +146,8 @@ public class Renderer {
 //        clear();
 //        player.setX(player.getX() + newPosX);
 //        player.setY(player.getY() + newPosY);
+
+
         player.update(newPosX, newPosY);
         terminal.moveCursor(player.getX(), player.getY());
         terminal.putCharacter('\u263A');
@@ -131,6 +158,8 @@ public class Renderer {
         terminal.putCharacter('P');
         terminal.moveCursor(10, 5);
         terminal.putCharacter('E');
+
+//        terminal.flush();
     }
 
     public void clear() {

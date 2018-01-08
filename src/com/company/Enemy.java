@@ -7,6 +7,8 @@ public class Enemy {
     public int y = 0;
     int tempPosX = 0;
     int tempPosY = 0;
+    int realPosX = 0;
+    int realPosY = 0;
     Random rand = new Random();
 
     public Enemy() {
@@ -34,16 +36,19 @@ public class Enemy {
     }
 
     public void update() {
-        x += tempPosX;
-        y += tempPosY;
+        x +=  rand.nextInt(2 + 1) - 1;
+        y +=  rand.nextInt(2 + 1) - 1;
         setX(x);
         setY(y);
     }
     public void checkForWall(){
-        tempPosX = rand.nextInt(2 + 1) - 1;
-        tempPosY =  rand.nextInt(2 + 1) - 1;
+        tempPosX = x + rand.nextInt(2 + 1) - 1;
+        tempPosY = y + rand.nextInt(2 + 1) - 1;
     }
-
+    public void addToMovement(){
+        realPosX = x + rand.nextInt(2 + 1) - 1;
+        realPosY = y + rand.nextInt(2 + 1) - 1;
+    }
     public void followPlayer(){
 
     }
