@@ -13,8 +13,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-
-
         Renderer rend = new Renderer();
 
         rend.start();
@@ -28,8 +26,6 @@ public class Main {
                 Thread.sleep(5);
 
                 rend.draw();
-
-
                 key = rend.terminal.readInput();
             }
             while (key == null);

@@ -27,7 +27,6 @@ public class Renderer {
 
     Random rand = new Random();
 
-
     Player player = new Player(20, 15);
     Enemy enemy = new Enemy(30, 15);
 
