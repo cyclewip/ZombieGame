@@ -19,8 +19,8 @@ public class Renderer {
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
 
-
-char[][] map = new char[20][70];
+    boolean isAWall = false;
+    char[][] map = new char[20][70];
 
     static Timer timer;
     static int interval = 0;
@@ -28,8 +28,8 @@ char[][] map = new char[20][70];
     Random rand = new Random();
 
 
-    Player player = new Player(30, 15);
-    Enemy enemy = new Enemy(20, 10);
+    Player player = new Player(20, 15);
+    Enemy enemy = new Enemy(30, 15);
 
     public Renderer() {
 
@@ -40,6 +40,7 @@ char[][] map = new char[20][70];
         Player player = new Player(0, 0);
 
     }
+
     public void readMap() {
         try {
             lines = Files.readAllLines(Paths.get("src/map.txt"), StandardCharsets.UTF_8);
@@ -63,32 +64,56 @@ char[][] map = new char[20][70];
                 c = map[i][y];
                 terminal.moveCursor(y, i);
                 terminal.putCharacter(c);
-//                if (map[i][y] == 'B') {
-//                    terminal.moveCursor(y, i);
-//                    terminal.putCharacter(c);
-//                } else if (map[i][y] == 'E') {
-//                    terminal.moveCursor(y, i);
-//                    terminal.putCharacter('E');
-//                } else if (map[i][y] == 'W') {
-//                    terminal.moveCursor(y, i);
-//                    terminal.putCharacter('W');
-//                } else if (map[i][y] == '-') {
-//                    terminal.moveCursor(y, i);
-//                    terminal.putCharacter('-');
-//                }
             }
         }
     }
-
 
     public void updateEnemy() {
 //        posX = rand.nextInt(40) + 1;
 //        posY = rand.nextInt(20) + 1;
 //        enemy.setX(posX);
 //        enemy.setY(posY);
+
+        if (map[enemy.y][enemy.x] == '-') {
+            isAWall = true;
+        }
         enemy.update();
-        terminal.moveCursor(enemy.x, enemy.y);
-        terminal.putCharacter('H');
+        if (!isAWall) {
+            isAWall = false;
+
+            terminal.moveCursor(enemy.x, enemy.y);
+            terminal.putCharacter('E');
+        }
+    }
+
+    public void renderScores() {
+
+        int score = player.hitPoints;
+        String s = Integer.toString(score);
+        char c;
+
+        if (s.length() > 2) {
+            terminal.moveCursor(21, 1);
+            c = s.charAt(0);
+            terminal.putCharacter(c);
+            terminal.moveCursor(22, 1);
+            c = s.charAt(1);
+            terminal.putCharacter(c);
+            terminal.moveCursor(23, 1);
+            c = s.charAt(2);
+            terminal.putCharacter(c);
+        } else if (s.length() > 1) {
+            terminal.moveCursor(21, 1);
+            c = s.charAt(0);
+            terminal.putCharacter(c);
+            terminal.moveCursor(22, 1);
+            c = s.charAt(1);
+            terminal.putCharacter(c);
+        } else if (s.length() > 0) {
+            terminal.moveCursor(21, 1);
+            c = s.charAt(0);
+            terminal.putCharacter(c);
+        }
     }
 
 

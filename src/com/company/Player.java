@@ -3,7 +3,7 @@ package com.company;
 public class Player {
     public int x = 0;
     public int y = 0;
-
+    int hitPoints = 10;
 
     public Player() {
     }

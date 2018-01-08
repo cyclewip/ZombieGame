@@ -20,6 +20,7 @@ public class Main {
         rend.start();
         rend.readMap();
         rend.createMap();
+        rend.renderScores();
         while (true) {
             //Wait for a key to be pressed
             Key key;
@@ -40,12 +41,15 @@ public class Main {
                     break;
                 case ArrowUp:
                     rend.updatePlayer(0,-1);
+                    rend.updateEnemy();
                     break;
                 case ArrowLeft:
                     rend.updatePlayer(-1,0);
+                    rend.updateEnemy();
                     break;
                 case ArrowRight:
                     rend.updatePlayer(1,0);
+                    rend.updateEnemy();
                     break;
             }
             System.out.println(key.getCharacter() + " " + key.getKind());

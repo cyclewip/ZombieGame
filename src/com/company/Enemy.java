@@ -5,6 +5,8 @@ import java.util.Random;
 public class Enemy {
     public int x = 0;
     public int y = 0;
+    int tempPosX = 0;
+    int tempPosY = 0;
     Random rand = new Random();
 
     public Enemy() {
@@ -32,9 +34,17 @@ public class Enemy {
     }
 
     public void update() {
-        x = rand.nextInt(40) + 1;
-        y = rand.nextInt(20) + 1;
+        x += tempPosX;
+        y += tempPosY;
         setX(x);
         setY(y);
+    }
+    public void checkForWall(){
+        tempPosX = rand.nextInt(2 + 1) - 1;
+        tempPosY =  rand.nextInt(2 + 1) - 1;
+    }
+
+    public void followPlayer(){
+
     }
 }
