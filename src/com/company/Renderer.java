@@ -1,30 +1,27 @@
 package com.company;
 
-import com.googlecode.lanterna.*;
-import com.googlecode.lanterna.input.Key;
+import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.terminal.Terminal;
 
-//import com.googlecode.lanterna.graphics.Styleset;
-//import com.googlecode.lanterna.graphics.TextGraphics;
-//import com.googlecode.lanterna.TextColor.ANSI;
-
 import java.io.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+//import com.googlecode.lanterna.graphics.Styleset;
+//import com.googlecode.lanterna.graphics.TextGraphics;
+//import com.googlecode.lanterna.TextColor.ANSI;
+
 public class Renderer {
     Terminal terminal = TerminalFacade.createTerminal(System.in,
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
 
-
+    boolean collided = false;
     boolean isAWall = false;
+
     char[][] map = new char[20][70];
 
     static Timer timer;
@@ -32,8 +29,8 @@ public class Renderer {
     Random rand = new Random();
 
 
-    Player player = new Player(20, 15);
-    Enemy enemy = new Enemy(30, 15);
+    Player player = new Player(4, 3);
+    Enemy enemy = new Enemy(10, 10);
 
     public Renderer() {
 
@@ -72,42 +69,18 @@ public class Renderer {
         }
     }
 
-    public void updateEnemy() {
-//        posX = rand.nextInt(40) + 1;
-//        posY = rand.nextInt(20) + 1;
-//        enemy.setX(posX);
-//        enemy.setY(posY);
+    public void updateEnemy(int newPosX, int newPosY) {
 
-//        if (map[enemy.y][enemy.x] == '-') {
-//            isAWall = true;
-//        }
-//        enemy.checkForWall();
-//        if (map[enemy.tempPosY][enemy.tempPosX] == '-') {
-//            isAWall = true;
-//        }
-//
-//        if (!isAWall) {
-//            isAWall = false;
-//            enemy.update();
-//            terminal.moveCursor(enemy.x, enemy.y);
-//            terminal.putCharacter('E');
-//        }
+        if(!collisionDetection() && inBounds(enemy.getX()+ newPosX, enemy.getY() + newPosY)){
 
-        if (map[enemy.tempPosY][enemy.tempPosX] != '-') {
+            enemy.update(newPosX, newPosY);
 
-            isAWall = true;
-            enemy.checkForWall();
-            enemy.update();
+            map[enemy.getY()][enemy.getX()] = 'E';
         }
-        enemy.update();
-        terminal.moveCursor(enemy.x, enemy.y);
-        terminal.putCharacter('E');
-//                if (!isAWall) {
-//            isAWall = false;
-//            enemy.update();
-//            terminal.moveCursor(enemy.x, enemy.y);
-//            terminal.putCharacter('E');
-//        }
+        //if (map[enemy.tempPosY][enemy.tempPosX] != '-') {
+
+
+        //}
 
     }
 
@@ -141,29 +114,54 @@ public class Renderer {
         }
     }
 
-
     public void updatePlayer(int newPosX, int newPosY) {
-//        clear();
-//        player.setX(player.getX() + newPosX);
-//        player.setY(player.getY() + newPosY);
 
 
-        player.update(newPosX, newPosY);
-        terminal.moveCursor(player.getX(), player.getY());
-        terminal.putCharacter('\u263A');
+        if(!collisionDetection() && inBounds(player.getX()+ newPosX, player.getY() + newPosY)){
+
+            player.update(newPosX, newPosY);
+            map[player.getY()][player.getX()] = 'P';
+        }
+
     }
-
-    public void draw() {
-        terminal.moveCursor(5, 5);
+    public void renderStuff(){
+        terminal.moveCursor(player.getX(), player.getY());
         terminal.putCharacter('P');
-        terminal.moveCursor(10, 5);
+
+        terminal.moveCursor(enemy.getX(), enemy.getY());
         terminal.putCharacter('E');
 
-//        terminal.flush();
+        renderScores();
+    }
+
+    public boolean inBounds(int x, int y){
+        boolean inBound = false;
+        if(x < 68 && y < 19 ){
+            if(x > 0 && y > 2)
+            inBound = true;
+        }
+        return inBound;
+    }
+
+
+    public void draw() {
+
+
     }
 
     public void clear() {
         terminal.clearScreen();
+    }
+
+    public boolean collisionDetection() {
+        if (map[player.tempPosX][player.tempPosY] == 'E') {
+            collided = true;
+        }
+        return collided;
+    }
+
+    public void meleeAttack(){
+
     }
 }
 

@@ -5,10 +5,7 @@ import java.util.Random;
 public class Enemy {
     public int x = 0;
     public int y = 0;
-    int tempPosX = 0;
-    int tempPosY = 0;
-    int realPosX = 0;
-    int realPosY = 0;
+
     Random rand = new Random();
 
     public Enemy() {
@@ -35,21 +32,10 @@ public class Enemy {
         this.y = y;
     }
 
-    public void update() {
-        x +=  rand.nextInt(2 + 1) - 1;
-        y +=  rand.nextInt(2 + 1) - 1;
+    public void update(int tempPosRandX, int tempPosRandY) {
+        x += tempPosRandX;
+        y += tempPosRandY;
         setX(x);
         setY(y);
-    }
-    public void checkForWall(){
-        tempPosX = x + rand.nextInt(2 + 1) - 1;
-        tempPosY = y + rand.nextInt(2 + 1) - 1;
-    }
-    public void addToMovement(){
-        realPosX = x + rand.nextInt(2 + 1) - 1;
-        realPosY = y + rand.nextInt(2 + 1) - 1;
-    }
-    public void followPlayer(){
-
     }
 }

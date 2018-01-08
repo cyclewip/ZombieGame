@@ -3,7 +3,8 @@ package com.company;
 public class Player {
     public int x = 0;
     public int y = 0;
-    int hitPoints = 10;
+    public int tempPosX, tempPosY;
+    int hitPoints = 100;
 
     public Player() {
     }
@@ -29,8 +30,10 @@ public class Player {
         this.y = y;
     }
 
-    public void update(int newPosX, int newPosY){
-        setX(getX() + newPosX);
-        setY(getY() + newPosY);
+    public void update(int tempPosX, int tempPosY){
+        x += tempPosX;
+        y += tempPosY;
+        setX(x);
+        setY(y);
     }
 }
