@@ -5,8 +5,27 @@ public class Player {
     public int y = 0;
     public int tempPosX, tempPosY;
     int hitPoints = 100;
+    int highScore = 0;
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public int getHighScore() {
+
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
 
     public Player() {
+
     }
 
     public Player(int x, int y) {
@@ -47,6 +66,8 @@ public class Player {
     }
 
     public void update(int tempPosX, int tempPosY){
+        this.tempPosX = tempPosX;
+        this.tempPosY = tempPosY;
         x += tempPosX;
         y += tempPosY;
         setX(x);

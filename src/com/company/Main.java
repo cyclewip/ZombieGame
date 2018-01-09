@@ -47,6 +47,9 @@ public class Main {
                     rend.updatePlayer(1,0);
                     rend.updateEnemy();
                     break;
+                case Enter:
+                    rend.enterPressed = true;
+                    break;
                 case Escape:
                     System.exit(0);
 

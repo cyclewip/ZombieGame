@@ -1,5 +1,5 @@
 -                <<<<   ZOMBIE SURVIVAL MODE   >>>>                  -
--   LEVEL:    SCORE:                        WEAPONS:    KILLS:       -
+-   LEVEL:   HEALTH:      SCORE:            WEAPONS:    KILLS:       -
 B-B-------------------------------------------------------------------
 -     ----------                                                     -
 -     -                                                              -

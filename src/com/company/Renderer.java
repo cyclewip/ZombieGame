@@ -23,6 +23,8 @@ public class Renderer {
     boolean collided = false;
     boolean isAWall = false;
     boolean attack = false;
+   public boolean enterPressed = false;
+    int meleeAttackCounter = 0;
 
     char[][] map = new char[20][70];
 
@@ -32,10 +34,11 @@ public class Renderer {
 
 
     Player player = new Player(4, 3);
-    Enemy enemy = new Enemy(10, 10);
     Enemy enemy1 = new Enemy(10, 10);
-    Enemy enemy2 = new Enemy(20, 10);
-
+    Enemy enemy2 = new Enemy(20, 12);
+    Enemy enemy3 = new Enemy(20, 14);
+    Enemy enemy4 = new Enemy(20, 16);
+    Enemy enemy5 = new Enemy(20, 18);
     public Renderer() {
 
     }
@@ -45,6 +48,9 @@ public class Renderer {
         Player player = new Player(0, 0);
         enemies.add(enemy1);
         enemies.add(enemy2);
+        enemies.add(enemy3);
+        enemies.add(enemy4);
+        enemies.add(enemy5);
     }
 
     public void readMap() {
@@ -83,26 +89,25 @@ public class Renderer {
             if (inBounds(enemies.get(i).getX() + newPosX, enemies.get(i).getY() + newPosY)) {
                 enemies.get(i).tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
                 enemies.get(i).tempPosY = newPosY;
-                if (!collisionDetection()) {
+//                if (!collisionDetection()) {
                     enemies.get(i).update(newPosX, newPosY);
                     map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
-                }
+//                }
 
             }
         }
-        //if (map[enemy.tempPosY][enemy.tempPosX] != '-') {
-
-
-        //}
 
     }
 
     public void renderScores() {
 
-        int score = player.hitPoints;
-        String s = Integer.toString(score);
+        int hp = player.hitPoints;
+        int score = player.highScore;
+        String s = Integer.toString(hp);
+        String s2 = Integer.toString(score);
         char c;
 
+        //// CHECKING FOR HITPOINTS
         if (s.length() > 2) {
             terminal.moveCursor(21, 1);
             c = s.charAt(0);
@@ -125,22 +130,42 @@ public class Renderer {
             c = s.charAt(0);
             terminal.putCharacter(c);
         }
+        //// CHECKING FOR HIGHSCORE
+        if (s2.length() > 2) {
+            terminal.moveCursor(32, 1);
+            c = s2.charAt(0);
+            terminal.putCharacter(c);
+            terminal.moveCursor(33, 1);
+            c = s2.charAt(1);
+            terminal.putCharacter(c);
+            terminal.moveCursor(34, 1);
+            c = s2.charAt(2);
+            terminal.putCharacter(c);
+        }
+        else if (s2.length() > 1) {
+            terminal.moveCursor(32, 1);
+            c = s2.charAt(0);
+            terminal.putCharacter(c);
+            terminal.moveCursor(33, 1);
+            c = s2.charAt(1);
+            terminal.putCharacter(c);
+        }
+        else if (s2.length() > 0) {
+            terminal.moveCursor(32, 1);
+            c = s2.charAt(0);
+            terminal.putCharacter(c);
+        }
+
     }
 
     public void updatePlayer(int newPosX, int newPosY) {
 
-
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
-//            player.tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
-//            player.tempPosY = newPosY; FÅR EJ ANVÄNDAS VET EJ VRF
-
-            if(!collisionDetection()){
+//            if(!collisionDetection()){
                 player.update(newPosX, newPosY);
                 map[player.getY()][player.getX()] = ' ';
-            }
-
+//            }
         }
-
     }
 
     public void renderStuff() {
@@ -150,8 +175,11 @@ public class Renderer {
         terminal.putCharacter('P');
 
         for (int i = 0; i < enemies.size(); i++) {
-            if (meleeAttack()) {    //// AFTER MELEE ATTACK, ENEMY DIES
+            if (meleeAttack(i) && enterPressed && enemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
+                player.setHighScore(player.getHighScore() + 5);
+                renderScores();
                 enemies.get(i).isAlive = false;
+                enterPressed = false;
             }
             if (enemies.get(i).isAlive) {
                 enemies.get(i).setC('E');
@@ -164,7 +192,7 @@ public class Renderer {
                 map[enemies.get(i).getY()][enemies.get(i).getX()] = enemies.get(i).getC();
             }
         }
-        renderScores();
+
     }
 
     public boolean inBounds(int x, int y) {
@@ -176,9 +204,7 @@ public class Renderer {
         return inBound;
     }
 
-
     public void draw() {
-
 
     }
 
@@ -199,21 +225,21 @@ public class Renderer {
 //        }
         return collided;
 
-
     }
 
-
-    public boolean meleeAttack() {
+    public boolean meleeAttack(int placeInList) {
+        attack = false;
         int pdistanceX = player.getX();
         int pdistanceY = player.getY();
         int edistanceX;
         int edistanceY;
         for (int i = 0; i < enemies.size(); i++) {
-            edistanceX = enemies.get(i).getX();
-            edistanceY = enemies.get(i).getY();
-            if (pdistanceX - edistanceX == 1) {
-                if (pdistanceY - edistanceY == 1) {
+            edistanceX = enemies.get(placeInList).getX();
+            edistanceY = enemies.get(placeInList).getY();
+            if (pdistanceX - edistanceX == 1 || edistanceX - pdistanceX == 1 || pdistanceX - edistanceX == 0 || edistanceX - pdistanceX == 0) {
+                if (pdistanceY - edistanceY == 1 || edistanceY - pdistanceY == 1 || pdistanceY - edistanceY == 0 || edistanceY - pdistanceY == 0) {
                     attack = true;
+
                     break;
                 }
             }
