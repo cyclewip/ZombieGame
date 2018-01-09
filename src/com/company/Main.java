@@ -19,12 +19,13 @@ public class Main {
             do {
                 Thread.sleep(50);
 
-
                 rend.readMap();
                 rend.createMap();
                 rend.renderScores();
                 rend.draw();
+//                rend.updateEnemy();
                 rend.renderStuff();
+
 
                 key = rend.terminal.readInput();
             }
@@ -32,19 +33,19 @@ public class Main {
 
             switch (key.getKind()) {
                 case ArrowDown:
-                    rend.updatePlayer(0,1);
+                    rend.updatePlayer(0, 1);
                     rend.updateEnemy();
                     break;
                 case ArrowUp:
-                    rend.updatePlayer(0,-1);
+                    rend.updatePlayer(0, -1);
                     rend.updateEnemy();
                     break;
                 case ArrowLeft:
-                    rend.updatePlayer(-1,0);
+                    rend.updatePlayer(-1, 0);
                     rend.updateEnemy();
                     break;
                 case ArrowRight:
-                    rend.updatePlayer(1,0);
+                    rend.updatePlayer(1, 0);
                     rend.updateEnemy();
                     break;
                 case Enter:
