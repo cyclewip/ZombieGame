@@ -7,7 +7,6 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-
         Random rand = new Random();
 
         Renderer rend = new Renderer();
@@ -20,7 +19,6 @@ public class Main {
             do {
                 Thread.sleep(50);
 
-                rend.draw();
 
                 rend.readMap();
                 rend.createMap();
@@ -35,22 +33,19 @@ public class Main {
             switch (key.getKind()) {
                 case ArrowDown:
                     rend.updatePlayer(0,1);
-                   // rend.updateEnemy((rand.nextInt(2 + 1) - 1), (rand.nextInt(2 + 1) - 1));
+                    rend.updateEnemy();
                     break;
                 case ArrowUp:
                     rend.updatePlayer(0,-1);
-                   // rend.updateEnemy((rand.nextInt(2 + 1) - 1), (rand.nextInt(2 + 1) - 1));
+                    rend.updateEnemy();
                     break;
                 case ArrowLeft:
                     rend.updatePlayer(-1,0);
-                   // rend.updateEnemy((rand.nextInt(2 + 1) - 1), (rand.nextInt(2 + 1) - 1));
+                    rend.updateEnemy();
                     break;
                 case ArrowRight:
                     rend.updatePlayer(1,0);
-                 //   rend.updateEnemy((rand.nextInt(2 + 1) - 1), (rand.nextInt(2 + 1) - 1));
-                    break;
-                case Enter:
-//                    rend.meleeAttack();
+                    rend.updateEnemy();
                     break;
                 case Escape:
                     System.exit(0);

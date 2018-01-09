@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-
 //import com.googlecode.lanterna.graphics.Styleset;
 //import com.googlecode.lanterna.graphics.TextGraphics;
 //import com.googlecode.lanterna.TextColor.ANSI;
@@ -19,23 +18,23 @@ public class Renderer {
     Terminal terminal = TerminalFacade.createTerminal(System.in,
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
-    ArrayList<Enemy> enemies = new ArrayList<Enemy>(5);
-    Enemy[] enemyList = new Enemy[10];
-
-    char[][] map = new char[20][70];
-
-    Random rand = new Random();
+    List<Enemy> enemies = new ArrayList<Enemy>();
 
     boolean collided = false;
     boolean isAWall = false;
     boolean attack = false;
-    boolean deadEnemy = false;
+
+    char[][] map = new char[20][70];
+
+    static Timer timer;
+    static int interval = 0;
+    Random rand = new Random();
 
 
     Player player = new Player(4, 3);
     Enemy enemy = new Enemy(10, 10);
-
-
+    Enemy enemy1 = new Enemy(10, 10);
+    Enemy enemy2 = new Enemy(20, 10);
 
     public Renderer() {
 
@@ -44,7 +43,8 @@ public class Renderer {
     public void start() {
         terminal.enterPrivateMode();
         Player player = new Player(0, 0);
-
+        enemies.add(enemy1);
+        enemies.add(enemy2);
     }
 
     public void readMap() {
@@ -74,16 +74,26 @@ public class Renderer {
         }
     }
 
-    public void updateEnemy(int newPosX, int newPosY) {
-        if (inBounds(enemy.getX() + newPosX, enemy.getY() + newPosY)) {
-            enemy.tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
-            enemy.tempPosY = newPosY;
-            if (!collisionDetection()) {
-                map[enemy.getX()][enemy.getY()] = ' '; ////// ÄNDRAR FÖREGÅENDE POSITION TILL INGET, SÅ ATT INTE ENEMY STANNAR KVAR
-                enemy.update(newPosX, newPosY);
+    public void updateEnemy() {
+        int newPosX = 0;
+        int newPosY = 0;
+        for (int i = 0; i < enemies.size(); i++) {
+            newPosX = rand.nextInt(2 + 1) - 1;
+            newPosY = rand.nextInt(2 + 1) - 1;
+            if (inBounds(enemies.get(i).getX() + newPosX, enemies.get(i).getY() + newPosY)) {
+                enemies.get(i).tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
+                enemies.get(i).tempPosY = newPosY;
+                if (!collisionDetection()) {
+                    enemies.get(i).update(newPosX, newPosY);
+                    map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
+                }
+
             }
         }
+        //if (map[enemy.tempPosY][enemy.tempPosX] != '-') {
 
+
+        //}
 
     }
 
@@ -121,15 +131,16 @@ public class Renderer {
 
 
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
-            player.tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
-            player.tempPosY = newPosY;
-            if (!collisionDetection()) {
+//            player.tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
+//            player.tempPosY = newPosY; FÅR EJ ANVÄNDAS VET EJ VRF
+
+            if(!collisionDetection()){
                 player.update(newPosX, newPosY);
-                map[player.getX()][player.getY()] = ' ';
-            } else {
-                int t = 5;
+                map[player.getY()][player.getX()] = ' ';
             }
+
         }
+
     }
 
     public void renderStuff() {
@@ -138,35 +149,21 @@ public class Renderer {
         map[player.getY()][player.getX()] = 'P';
         terminal.putCharacter('P');
 
-
-        if (meleeAttack()) {    //// AFTER MELEE ATTACK, ENEMY DIES
-            enemy.isAlive = false;
+        for (int i = 0; i < enemies.size(); i++) {
+            if (meleeAttack()) {    //// AFTER MELEE ATTACK, ENEMY DIES
+                enemies.get(i).isAlive = false;
+            }
+            if (enemies.get(i).isAlive) {
+                enemies.get(i).setC('E');
+                terminal.moveCursor(enemies.get(i).getX(), enemies.get(i).getY());
+                terminal.putCharacter('E');
+                map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
+            }
+            else {   // WHEN DEAD, REMOVE CHARACTER E
+                enemies.get(i).setC(' ');
+                map[enemies.get(i).getY()][enemies.get(i).getX()] = enemies.get(i).getC();
+            }
         }
-        //// IF ENEMY IS ALIVE, KEEP DRAWING
-        if (enemy.isAlive) {
-            enemy.setC('E');
-            terminal.moveCursor(enemy.getX(), enemy.getY());
-            map[enemy.getY()][enemy.getX()] = enemy.getC();
-            terminal.putCharacter(enemy.getC());
-        }
-        else{   // WHEN DEAD, REMOVE CHARACTER E
-            enemy.setC(' ');
-            map[enemy.getY()][enemy.getX()] = enemy.getC();
-        }
-//        if(meleeAttack() && !deadEnemy){    //// IF ENEMY IS HIT ONCE, SET VALUE TO ' '
-//            deadEnemy = true;
-//            enemy.setC(' ');
-//            terminal.moveCursor(enemy.getX(), enemy.getY());
-//            map[enemy.getY()][enemy.getX()] = enemy.getC();
-//            terminal.putCharacter(enemy.getC());
-//        }
-
-
-//        else{
-//            terminal.moveCursor(enemy.getX(), enemy.getY());
-//            map[enemy.getY()][enemy.getX()] = ' ';
-//            terminal.putCharacter(' ');
-//        }
         renderScores();
     }
 
@@ -179,7 +176,9 @@ public class Renderer {
         return inBound;
     }
 
+
     public void draw() {
+
 
     }
 
@@ -188,26 +187,36 @@ public class Renderer {
     }
 
     public boolean collisionDetection() {
-        collided = false;
-        if (map[player.getX() + player.tempPosX][player.getY() + player.tempPosY] == 'E') {
+        if (map[player.tempPosX][player.tempPosY] == 'E') {
             collided = true;
         }
-        if (map[enemy.getX() + enemy.tempPosX][enemy.getY() + enemy.tempPosY] == 'P') {
-            collided = true;
-        }
+//        for (int i = 0; i < enemies.size(); i++) { FUNKAR EJ
+//            if (map[enemies.get(i).getX() + enemies.get(i).tempPosX][enemies.get(i).getY() + enemies.get(i).tempPosY] == 'P') {
+//                collided = true;
+//                enemies.get(i).hasCollided = true;
+//                break;
+//            }
+//        }
         return collided;
+
+
     }
 
-    public boolean meleeAttack() {
 
+    public boolean meleeAttack() {
         int pdistanceX = player.getX();
         int pdistanceY = player.getY();
-        int edistanceX = enemy.getX();
-        int edistanceY = enemy.getY();
-        if (pdistanceX - edistanceX == 1) {
-            attack = true;
-        } else if (pdistanceY - edistanceY == 1) {
-            attack = true;
+        int edistanceX;
+        int edistanceY;
+        for (int i = 0; i < enemies.size(); i++) {
+            edistanceX = enemies.get(i).getX();
+            edistanceY = enemies.get(i).getY();
+            if (pdistanceX - edistanceX == 1) {
+                if (pdistanceY - edistanceY == 1) {
+                    attack = true;
+                    break;
+                }
+            }
         }
         return attack;
     }

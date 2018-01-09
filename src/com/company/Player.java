@@ -18,6 +18,22 @@ public class Player {
         return x;
     }
 
+    public int getTempPosX() {
+        return tempPosX;
+    }
+
+    public void setTempPosX(int tempPosX) {
+        this.tempPosX = tempPosX;
+    }
+
+    public int getTempPosY() {
+        return tempPosY;
+    }
+
+    public void setTempPosY(int tempPosY) {
+        this.tempPosY = tempPosY;
+    }
+
     public void setX(int x) {
         this.x = x;
     }

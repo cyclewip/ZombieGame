@@ -3,21 +3,6 @@ package com.company;
 import java.util.Random;
 
 public class Enemy {
-    public int x = 0;
-    public int y = 0;
-    public int tempPosX, tempPosY;
-    boolean isAlive = true;
-    char c = 'E';
-    Random rand = new Random();
-
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
     public char getC() {
         return c;
     }
@@ -26,6 +11,14 @@ public class Enemy {
         this.c = c;
     }
 
+    public int x = 0;
+    public int y = 0;
+    public int tempPosX, tempPosY;
+    boolean hasCollided = false;
+    char c = 'E';
+    boolean isAlive = true;
+    Random rand = new Random();
+
     public Enemy() {
     }
 
@@ -33,6 +26,7 @@ public class Enemy {
         this.x = x;
         this.y = y;
     }
+
     public int getX() {
         return x;
     }
