@@ -1,34 +1,41 @@
 package com.company;
 
-import com.googlecode.lanterna.*;
-import com.googlecode.lanterna.input.Key;
+import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+
+//import com.googlecode.lanterna.graphics.Styleset;
+//import com.googlecode.lanterna.graphics.TextGraphics;
+//import com.googlecode.lanterna.TextColor.ANSI;
+
 public class Renderer {
     Terminal terminal = TerminalFacade.createTerminal(System.in,
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
+    ArrayList<Enemy> enemies = new ArrayList<Enemy>(5);
+    Enemy[] enemyList = new Enemy[10];
 
-    boolean isAWall = false;
     char[][] map = new char[20][70];
-
-    static Timer timer;
-    static int interval = 0;
 
     Random rand = new Random();
 
-    Player player = new Player(20, 15);
-    Enemy enemy = new Enemy(30, 15);
+    boolean collided = false;
+    boolean isAWall = false;
+    boolean attack = false;
+    boolean deadEnemy = false;
+
+
+    Player player = new Player(4, 3);
+    Enemy enemy = new Enemy(10, 10);
+
+
 
     public Renderer() {
 
@@ -67,22 +74,17 @@ public class Renderer {
         }
     }
 
-    public void updateEnemy() {
-//        posX = rand.nextInt(40) + 1;
-//        posY = rand.nextInt(20) + 1;
-//        enemy.setX(posX);
-//        enemy.setY(posY);
-
-        if (map[enemy.y][enemy.x] == '-') {
-            isAWall = true;
+    public void updateEnemy(int newPosX, int newPosY) {
+        if (inBounds(enemy.getX() + newPosX, enemy.getY() + newPosY)) {
+            enemy.tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
+            enemy.tempPosY = newPosY;
+            if (!collisionDetection()) {
+                map[enemy.getX()][enemy.getY()] = ' '; ////// ÄNDRAR FÖREGÅENDE POSITION TILL INGET, SÅ ATT INTE ENEMY STANNAR KVAR
+                enemy.update(newPosX, newPosY);
+            }
         }
-        enemy.update();
-        if (!isAWall) {
-            isAWall = false;
 
-            terminal.moveCursor(enemy.x, enemy.y);
-            terminal.putCharacter('E');
-        }
+
     }
 
     public void renderScores() {
@@ -115,25 +117,99 @@ public class Renderer {
         }
     }
 
-
     public void updatePlayer(int newPosX, int newPosY) {
-//        clear();
-//        player.setX(player.getX() + newPosX);
-//        player.setY(player.getY() + newPosY);
-        player.update(newPosX, newPosY);
+
+
+        if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
+            player.tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
+            player.tempPosY = newPosY;
+            if (!collisionDetection()) {
+                player.update(newPosX, newPosY);
+                map[player.getX()][player.getY()] = ' ';
+            } else {
+                int t = 5;
+            }
+        }
+    }
+
+    public void renderStuff() {
+
         terminal.moveCursor(player.getX(), player.getY());
-        terminal.putCharacter('\u263A');
+        map[player.getY()][player.getX()] = 'P';
+        terminal.putCharacter('P');
+
+
+        if (meleeAttack()) {    //// AFTER MELEE ATTACK, ENEMY DIES
+            enemy.isAlive = false;
+        }
+        //// IF ENEMY IS ALIVE, KEEP DRAWING
+        if (enemy.isAlive) {
+            enemy.setC('E');
+            terminal.moveCursor(enemy.getX(), enemy.getY());
+            map[enemy.getY()][enemy.getX()] = enemy.getC();
+            terminal.putCharacter(enemy.getC());
+        }
+        else{   // WHEN DEAD, REMOVE CHARACTER E
+            enemy.setC(' ');
+            map[enemy.getY()][enemy.getX()] = enemy.getC();
+        }
+//        if(meleeAttack() && !deadEnemy){    //// IF ENEMY IS HIT ONCE, SET VALUE TO ' '
+//            deadEnemy = true;
+//            enemy.setC(' ');
+//            terminal.moveCursor(enemy.getX(), enemy.getY());
+//            map[enemy.getY()][enemy.getX()] = enemy.getC();
+//            terminal.putCharacter(enemy.getC());
+//        }
+
+
+//        else{
+//            terminal.moveCursor(enemy.getX(), enemy.getY());
+//            map[enemy.getY()][enemy.getX()] = ' ';
+//            terminal.putCharacter(' ');
+//        }
+        renderScores();
+    }
+
+    public boolean inBounds(int x, int y) {
+        boolean inBound = false;
+        if (x < 68 && y < 19) {
+            if (x > 0 && y > 2)
+                inBound = true;
+        }
+        return inBound;
     }
 
     public void draw() {
-        terminal.moveCursor(5, 5);
-        terminal.putCharacter('P');
-        terminal.moveCursor(10, 5);
-        terminal.putCharacter('E');
+
     }
 
     public void clear() {
         terminal.clearScreen();
+    }
+
+    public boolean collisionDetection() {
+        collided = false;
+        if (map[player.getX() + player.tempPosX][player.getY() + player.tempPosY] == 'E') {
+            collided = true;
+        }
+        if (map[enemy.getX() + enemy.tempPosX][enemy.getY() + enemy.tempPosY] == 'P') {
+            collided = true;
+        }
+        return collided;
+    }
+
+    public boolean meleeAttack() {
+
+        int pdistanceX = player.getX();
+        int pdistanceY = player.getY();
+        int edistanceX = enemy.getX();
+        int edistanceY = enemy.getY();
+        if (pdistanceX - edistanceX == 1) {
+            attack = true;
+        } else if (pdistanceY - edistanceY == 1) {
+            attack = true;
+        }
+        return attack;
     }
 }
 

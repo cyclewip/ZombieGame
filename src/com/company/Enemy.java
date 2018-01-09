@@ -5,9 +5,26 @@ import java.util.Random;
 public class Enemy {
     public int x = 0;
     public int y = 0;
-    int tempPosX = 0;
-    int tempPosY = 0;
+    public int tempPosX, tempPosY;
+    boolean isAlive = true;
+    char c = 'E';
     Random rand = new Random();
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
 
     public Enemy() {
     }
@@ -16,7 +33,6 @@ public class Enemy {
         this.x = x;
         this.y = y;
     }
-
     public int getX() {
         return x;
     }
@@ -33,18 +49,10 @@ public class Enemy {
         this.y = y;
     }
 
-    public void update() {
-        x += tempPosX;
-        y += tempPosY;
+    public void update(int tempPosRandX, int tempPosRandY) {
+        x += tempPosRandX;
+        y += tempPosRandY;
         setX(x);
         setY(y);
-    }
-    public void checkForWall(){
-        tempPosX = rand.nextInt(2 + 1) - 1;
-        tempPosY =  rand.nextInt(2 + 1) - 1;
-    }
-
-    public void followPlayer(){
-
     }
 }
