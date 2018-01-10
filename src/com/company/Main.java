@@ -23,7 +23,6 @@ public class Main {
                 rend.createMap();
                 rend.renderScores();
                 rend.draw();
-//                rend.updateEnemy();
                 rend.renderStuff();
 
 
@@ -33,20 +32,21 @@ public class Main {
 
             switch (key.getKind()) {
                 case ArrowDown:
+//                    rend.player.setKey(key);
                     rend.updatePlayer(0, 1);
-                    rend.updateEnemy();
+//                    rend.updateEnemy();
                     break;
                 case ArrowUp:
                     rend.updatePlayer(0, -1);
-                    rend.updateEnemy();
+//                    rend.updateEnemy();
                     break;
                 case ArrowLeft:
                     rend.updatePlayer(-1, 0);
-                    rend.updateEnemy();
+//                    rend.updateEnemy();
                     break;
                 case ArrowRight:
                     rend.updatePlayer(1, 0);
-                    rend.updateEnemy();
+//                    rend.updateEnemy();
                     break;
                 case Enter:
                     rend.enterPressed = true;

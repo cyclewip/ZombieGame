@@ -1,11 +1,22 @@
 package com.company;
 
+import java.security.Key;
+
 public class Player {
     public int x = 0;
     public int y = 0;
     public int tempPosX, tempPosY;
     int hitPoints = 100;
     int highScore = 0;
+    Key key;
+
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+    }
 
     public int getHitPoints() {
         return hitPoints;

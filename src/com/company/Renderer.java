@@ -20,22 +20,6 @@ public class Renderer {
     List<String> lines = new ArrayList<String>();
     List<Enemy> enemies = new ArrayList<Enemy>();
 
-    int secondsPassed = 0;
-
-    Timer timer = new Timer();
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            if(secondsPassed == 1)
-                secondsPassed = 0;
-            secondsPassed++;
-            System.out.println("Seconds passed" + secondsPassed);
-            secondPassed = true;
-//            System.out.println("Boolean is " + oneSecond);
-//            oneSecond = true;
-        }
-    };
-
     boolean collided = false;
     boolean isAWall = false;
     boolean attack = false;
@@ -45,21 +29,29 @@ public class Renderer {
 
     char[][] map = new char[20][70];
 
-
     static int interval = 0;
     Random rand = new Random();
-
 
     Player player = new Player(4, 3);
     Enemy enemy1 = new Enemy(10, 10, "Dumb");
     Enemy enemy2 = new Enemy(20, 12, "Follow");
-
     //    Enemy enemy3 = new Enemy(20, 14);
 //    Enemy enemy4 = new Enemy(20, 16);
 //    Enemy enemy5 = new Enemy(20, 18);
+
     public Renderer() {
 
     }
+    int secondsPassed = 0;
+    Timer timer = new Timer();
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            updateEnemy();
+            secondsPassed++;
+            System.out.println("Seconds passed" + secondsPassed);
+        }
+    };
 
     public void start() {
         terminal.enterPrivateMode();
@@ -69,8 +61,7 @@ public class Renderer {
 //        enemies.add(enemy3);
 //        enemies.add(enemy4);
 //        enemies.add(enemy5);
-
-
+        timer.scheduleAtFixedRate(task, 500, 750);
     }
 
     public void readMap() {
@@ -101,11 +92,10 @@ public class Renderer {
     }
 
     public void updateRate() {
-        timer.scheduleAtFixedRate(task, 1000, 1000);
+
     }
 
-    public void updateEnemy() {
-
+    public void updateEnemy  (){
 
             int newPosX = 0;
             int newPosY = 0;
@@ -126,7 +116,6 @@ public class Renderer {
                     standardPatternAI(i);
                 }
             }
-
     }
 
     public void standardPatternAI(int i) {
