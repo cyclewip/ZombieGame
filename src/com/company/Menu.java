@@ -23,8 +23,23 @@ public class Menu {
                 default:
                     //Handle in case some one presses the wrong numbers?
             }
-
         } while (playGame != 3);
+
+    }
+
+    public void startGame() {
+
+    }
+
+    public void drawHighScoreMenu() {
+
+    }
+
+    public void drawGameOverMenu() {
+
+    }
+
+    public void quitGame() {
 
     }
 
