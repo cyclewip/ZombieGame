@@ -42,6 +42,7 @@ public class Renderer {
     public Renderer() {
 
     }
+
     int secondsPassed = 0;
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
@@ -95,27 +96,27 @@ public class Renderer {
 
     }
 
-    public void updateEnemy  (){
+    public void updateEnemy() {
 
-            int newPosX = 0;
-            int newPosY = 0;
-            for (int i = 0; i < enemies.size(); i++) {
-                newPosX = rand.nextInt(2 + 1) - 1;
-                newPosY = rand.nextInt(2 + 1) - 1;
-                if (enemies.get(i).type.equals("Dumb")) {
-                    if (inBounds(enemies.get(i).getX() + newPosX, enemies.get(i).getY() + newPosY)) {
-                        enemies.get(i).tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
-                        enemies.get(i).tempPosY = newPosY;
+        int newPosX = 0;
+        int newPosY = 0;
+        for (int i = 0; i < enemies.size(); i++) {
+            newPosX = rand.nextInt(2 + 1) - 1;
+            newPosY = rand.nextInt(2 + 1) - 1;
+            if (enemies.get(i).type.equals("Dumb")) {
+                if (inBounds(enemies.get(i).getX() + newPosX, enemies.get(i).getY() + newPosY)) {
+                    enemies.get(i).tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
+                    enemies.get(i).tempPosY = newPosY;
 //                if (!collisionDetection()) {
-                        enemies.get(i).update(newPosX, newPosY);
-                        map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
+                    enemies.get(i).update(newPosX, newPosY);
+                    map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
 //                }
-                    }
-                }
-                if (enemies.get(i).type.equals("Follow")) {
-                    standardPatternAI(i);
                 }
             }
+            if (enemies.get(i).type.equals("Follow")) {
+                standardPatternAI(i);
+            }
+        }
     }
 
     public void standardPatternAI(int i) {

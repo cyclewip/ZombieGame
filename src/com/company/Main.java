@@ -8,10 +8,12 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
         Random rand = new Random();
-
         Renderer rend = new Renderer();
 
+        rend.terminal.setCursorVisible(false);
+
         rend.start();
+
 
         while (true) {
             //Wait for a key to be pressed
