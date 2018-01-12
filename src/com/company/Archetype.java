@@ -52,7 +52,7 @@ public abstract class Archetype {
     public boolean isAlive() {
         return isAlive;
     }
-
+//    public abstract void spawner(Archetype e, Renderer rend);
     public abstract void pattern(Player player, Archetype e);
 
     public void setAlive(boolean alive) {

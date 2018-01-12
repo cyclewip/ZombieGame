@@ -31,7 +31,6 @@ public class Main {
                 key = rend.terminal.readInput();
             }
             while (key == null);
-
             switch (key.getKind()) {
                 case ArrowDown:
 //                    rend.player.setKey(key);

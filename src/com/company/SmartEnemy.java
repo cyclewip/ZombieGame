@@ -93,4 +93,10 @@ public class SmartEnemy extends Archetype {
         setX(x);
         setY(y);
     }
+//    public void spawner(Archetype e, Renderer rend){
+//        if(rend.enemyTimer == 5){
+//            e = new SmartEnemy(random.nextInt(35) + 25,random.nextInt(12) + 6, "Smart");
+//        }
+//
+//    }
 }

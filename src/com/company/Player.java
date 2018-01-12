@@ -23,7 +23,7 @@ public class Player {
     }
 
     public int tempPosX, tempPosY;
-    int hitPoints = 100;
+    int hitPoints = 10;
     int highScore = 0;
     int powerUpHighScore = 5;
     int powerUpDamage = 10;

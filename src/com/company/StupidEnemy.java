@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.List;
 import java.util.Random;
 
 public class StupidEnemy extends Archetype {
@@ -53,4 +54,9 @@ public class StupidEnemy extends Archetype {
         }
 
     }
+//    public void spawner(List<Archetype> allEnemies, Renderer rend){
+//        if(rend.enemyTimer == 5){
+//            allEnemies.add(new SmartEnemy(random.nextInt(35) + 25,random.nextInt(12) + 6, "Smart"));
+//        }
+//    }
 }

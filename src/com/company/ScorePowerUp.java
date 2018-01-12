@@ -50,7 +50,6 @@ public class ScorePowerUp implements Powerup{
         this.y = y;
     }
     public void powerUp(Player player){
-        player.setPowerUpHighScore(player.getHighScore() + 2);
+        player.setPowerUpHighScore(player.getPowerUpHighScore() + 2);
     }
-
 }

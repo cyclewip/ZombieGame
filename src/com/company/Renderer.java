@@ -30,52 +30,49 @@ public class Renderer {
     char[][] map = new char[24][70];
     char[][] mapMainMenu = new char[24][70];
 
-    static int interval = 0;
     Random rand = new Random();
+
+    static int interval = 0;
 
 
     Player player = new Player(11, 10);
-    Archetype smartEnemy1 = new SmartEnemy(7, 7, "Smart");
-    Archetype smartEnemy2 = new SmartEnemy(7, 9, "Smart");
-    Archetype smartEnemy3 = new SmartEnemy(9, 7, "Smart");
-    Archetype smartEnemy4 = new SmartEnemy(11, 11, "Smart");
-    Archetype stupidEnemy1 = new StupidEnemy(13, 13, "Stupid");
-
+    Archetype archetype;
 
     Powerup healthPowerUp = new HealthPowerUp(10, 10);
-//    Powerup scorePowerUp = new ScorePowerUp(10, 17);
-//    Powerup damagePowerUp = new DamagePowerUp(10, 19);
+    Powerup scorePowerUp = new ScorePowerUp(11, 11);
+    Powerup damagePowerUp = new DamagePowerUp(10, 12);
+
 
     public Renderer() {
 
     }
 
     int secondsPassed = 0;
+    int enemyTimer = 0;
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
             updateEnemy();
+            enemySpawner();
+            enemyTimer++;
+            if (enemyTimer >= 15)
+                enemyTimer = 0;
             secondsPassed++;
-            System.out.println("Seconds passed" + secondsPassed);
+            enemyTimer++;
+            System.out.println("enemytimer" + enemyTimer);
         }
     };
 
     public void start() {
         terminal.enterPrivateMode();
-
-//        allEnemies.add(smartEnemy1);
-//        allEnemies.add(smartEnemy2);
-//        allEnemies.add(smartEnemy3);
-//        allEnemies.add(smartEnemy4);
-        allEnemies.add(stupidEnemy1);
+        allEnemies.add(new SmartEnemy(7, 7, "Smart"));
+        allEnemies.add(new StupidEnemy(9, 7, "Stupid"));
 
 
         allPowerups.add(healthPowerUp);
-//        allPowerups.add(healthPowerUp);
-//        allPowerups.add(scorePowerUp);
-
-
+        allPowerups.add(scorePowerUp);
+        allPowerups.add(damagePowerUp);
         timer.scheduleAtFixedRate(task, 500, 300);
     }
 
@@ -106,7 +103,22 @@ public class Renderer {
         }
     }
 
+    public void enemySpawner() {
+        int randX = rand.nextInt(35) + 25;
+        int randY = rand.nextInt(10) + 8;
+        int r = rand.nextInt(2) + 1;
+
+        if (enemyTimer == 5 && allEnemies.size() <= 10) {
+            if (r == 2) {
+                allEnemies.add(new SmartEnemy(randX, randY, "Smart"));
+            } else {
+                allEnemies.add(new StupidEnemy(randX, randY, "Stupid"));
+            }
+        }
+    }
+
     public void updateEnemy() {
+
         int newPosX = 0;
         int newPosY = 0;
         for (int i = 0; i < allEnemies.size(); i++) {
@@ -133,7 +145,7 @@ public class Renderer {
         char c;
 
         //// CHECKING FOR HITPOINTS
-        if (s.length() > 2) {
+        if (s.length() == 3) {
             terminal.moveCursor(21, 2);
             c = s.charAt(0);
             terminal.putCharacter(c);
@@ -143,20 +155,20 @@ public class Renderer {
             terminal.moveCursor(23, 2);
             c = s.charAt(2);
             terminal.putCharacter(c);
-        } else if (s.length() > 1) {
+        } else if (s.length() == 2) {
             terminal.moveCursor(21, 2);
             c = s.charAt(0);
             terminal.putCharacter(c);
-            terminal.moveCursor(22, 1);
+            terminal.moveCursor(22, 2);
             c = s.charAt(1);
             terminal.putCharacter(c);
-        } else if (s.length() > 0) {
+        } else if (s.length() == 1) {
             terminal.moveCursor(21, 2);
             c = s.charAt(0);
             terminal.putCharacter(c);
         }
         //// CHECKING FOR HIGHSCORE
-        if (s2.length() > 2) {
+        if (s2.length() == 3) {
             terminal.moveCursor(32, 2);
             c = s2.charAt(0);
             terminal.putCharacter(c);
@@ -166,14 +178,14 @@ public class Renderer {
             terminal.moveCursor(34, 2);
             c = s2.charAt(2);
             terminal.putCharacter(c);
-        } else if (s2.length() > 1) {
+        } else if (s2.length() == 2) {
             terminal.moveCursor(32, 2);
             c = s2.charAt(0);
             terminal.putCharacter(c);
             terminal.moveCursor(33, 2);
             c = s2.charAt(1);
             terminal.putCharacter(c);
-        } else if (s2.length() > 0) {
+        } else if (s2.length() == 1) {
             terminal.moveCursor(32, 2);
             c = s2.charAt(0);
             terminal.putCharacter(c);
@@ -220,21 +232,28 @@ public class Renderer {
         for (int i = 0; i < allPowerups.size(); i++) {
             if (!allPowerups.get(i).isPickedUp()) {
                 terminal.moveCursor(allPowerups.get(i).getX(), allPowerups.get(i).getY());
-                terminal.putCharacter('H');
-                map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = 'H';
+                if (allPowerups.get(i).getType().equals("HEALTH")) {
+                    terminal.putCharacter('H');
+                    map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = 'H';
+                } else if (allPowerups.get(i).getType().equals("DAMAGE")) {
+                    terminal.putCharacter('D');
+                    map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = 'D';
+                } else if (allPowerups.get(i).getType().equals("SCORE")) {
+                    terminal.putCharacter('S');
+                    map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = 'S';
+                }
             } else {
-
                 terminal.moveCursor(allPowerups.get(i).getX(), allPowerups.get(i).getY());
                 terminal.putCharacter(' ');
                 map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = ' ';
             }
         }
+        int i = 5;
     }
 
     public void collectPowerUp() { ////////////// ÄNDRAT 1/12
         for (int i = 0; i < allPowerups.size(); i++) {
             if (allPowerups.get(i).isPickedUp()) {
-                allPowerups.get(i).setPickedUp(false);
                 allPowerups.get(i).powerUp(player);
             }
         }
@@ -262,15 +281,15 @@ public class Renderer {
         collided = false;
 //        }
         for (int i = 0; i < allPowerups.size(); i++) {      ////////////// ÄNDRAT 1/12
-            if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'S') { // ADD player.tempPos
+            if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'S' && allPowerups.get(i).getType().equals("SCORE")) { // ADD player.tempPos
                 allPowerups.get(i).setPickedUp(true);
                 collided = true;
                 break;
-            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'H') {
+            } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'H' && allPowerups.get(i).getType().equals("HEALTH")) {
                 allPowerups.get(i).setPickedUp(true);
                 collided = true;
                 break;
-            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'D') {
+            } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'D' && allPowerups.get(i).getType().equals("DAMAGE")) {
                 allPowerups.get(i).setPickedUp(true);
                 collided = true;
                 break;
