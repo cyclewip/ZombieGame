@@ -5,7 +5,7 @@ import java.util.Random;
 public class tempAI {
 // YOLO
     Player player = new Player(20, 15);
-    Enemy enemy = new Enemy(30, 15, "Dumb");
+    Enemy enemy = new Enemy(30, 15);
     Random random = new Random();
 
     // Enemy AI examples - By Jonas and Medusa //
@@ -71,25 +71,25 @@ public class tempAI {
     /* *********** AI ***************
             RANDOM PATTERN AI
      ***************************** */
-    public void randomPatternAI() {
-        int randomNum = random.nextInt(4) + 1;
-        int x;
-        int y;
-
-        if (randomNum == 1) {
-            x = enemy.getX() - 1;
-            enemy.setX(x);
-        } else if (randomNum == 2) {
-            x = enemy.getX() + 1;
-            enemy.setX(x);
-        } else if (randomNum == 3) {
-            y = enemy.getY() - 1;
-            enemy.setY(y);
-        } else {
-            y = enemy.getY() + 1;
-            enemy.setY(y);
-        }
-    }
+//    public void randomPatternAI() {
+//        int randomNum = random.nextInt(4) + 1;
+//        int x;
+//        int y;
+//
+//        if (randomNum == 1) {
+//            x = enemy.getX() - 1;
+//            enemy.setX(x);
+//        } else if (randomNum == 2) {
+//            x = enemy.getX() + 1;
+//            enemy.setX(x);
+//        } else if (randomNum == 3) {
+//            y = enemy.getY() - 1;
+//            enemy.setY(y);
+//        } else {
+//            y = enemy.getY() + 1;
+//            enemy.setY(y);
+//        }
+//    }
 
 }
 

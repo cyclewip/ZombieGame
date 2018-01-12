@@ -5,18 +5,16 @@ public abstract class Archetype {
     public int y = 0;
     public int tempPosX;
     public int tempPosY;
-
+    String type = "";
     boolean isAlive = true;
     char c = 'E';
 
     public Archetype() {
-        x = 0;
-        y = 0;
     }
-
-    public Archetype(int x, int y) {
+    public Archetype(int x, int y, String type) {
         this.x = x;
         this.y = y;
+        this.type = type;
     }
 
     public int getX() {
@@ -54,6 +52,8 @@ public abstract class Archetype {
     public boolean isAlive() {
         return isAlive;
     }
+
+    public abstract void pattern(Player player, Archetype e);
 
     public void setAlive(boolean alive) {
         isAlive = alive;

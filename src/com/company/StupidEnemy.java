@@ -3,29 +3,54 @@ package com.company;
 import java.util.Random;
 
 public class StupidEnemy extends Archetype {
-
-    public StupidEnemy(int x, int y) {
-        super(x, y);
+    Random random = new Random();
+//    int x = 0;
+//    int y = 0;
+    String type = "Stupid";
+    boolean isAlive = true;
+    public StupidEnemy(int x, int y, String type) {
+        super(x, y, type);
+        this.type = type;
     }
 
-    public void randomPatternAI(Archetype enemy) {
-        Random random = new Random();
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void pattern(Player player, Archetype e) {
+
         int randomNum = random.nextInt(4) + 1;
         int x;
         int y;
-
         if (randomNum == 1) {
-            x = enemy.getX() - 1;
-            enemy.setX(x);
+            x = e.getX() - 1;
+            e.setX(x);
         } else if (randomNum == 2) {
-            x = enemy.getX() + 1;
-            enemy.setX(x);
+            x = e.getX() + 1;
+            e.setX(x);
         } else if (randomNum == 3) {
-            y = enemy.getY() - 1;
-            enemy.setY(y);
+            y = e.getY() - 1;
+            e.setY(y);
         } else {
-            y = enemy.getY() + 1;
-            enemy.setY(y);
+            y = e.getY() + 1;
+            e.setY(y);
         }
+
     }
 }

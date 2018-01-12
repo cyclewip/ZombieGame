@@ -19,7 +19,8 @@ public class Renderer {
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
     List<Enemy> enemies = new ArrayList<Enemy>();
-
+    List<Archetype> allEnemies = new ArrayList<Archetype>();
+    List<Powerup> allPowerups = new ArrayList<Powerup>();
     boolean collided = false;
     boolean isAWall = false;
     boolean attack = false;
@@ -27,21 +28,32 @@ public class Renderer {
     boolean secondPassed = false;
     int meleeAttackCounter = 0;
 
-    char[][] map = new char[20][70];
+    char[][] map = new char[24][70];
+    char[][] mapMainMenu = new char[24][70];
 
     static int interval = 0;
     Random rand = new Random();
 
+
     Player player = new Player(4, 3);
-    Enemy enemy1 = new Enemy(10, 10, "Dumb");
-    Enemy enemy2 = new Enemy(20, 12, "Follow");
-    //    Enemy enemy3 = new Enemy(20, 14);
-//    Enemy enemy4 = new Enemy(20, 16);
-//    Enemy enemy5 = new Enemy(20, 18);
+    Archetype smartEnemy1 = new SmartEnemy(7, 7, "Smart");
+    Archetype smartEnemy2 = new SmartEnemy(7, 9, "Smart");
+    Archetype smartEnemy3 = new SmartEnemy(9, 7, "Smart");
+    Archetype smartEnemy4 = new SmartEnemy(11, 11, "Smart");
+    Archetype stupidEnemy1 = new StupidEnemy(13, 13, "Stupid");
+
+
+
+
+    Powerup healthPowerUp = new HealthPowerUp(10, 15);
+    Powerup scorePowerUp = new ScorePowerUp(10, 17);
+    Powerup damagePowerUp = new DamagePowerUp(10, 19);
+
 
     public Renderer() {
 
     }
+
     int secondsPassed = 0;
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
@@ -56,21 +68,29 @@ public class Renderer {
     public void start() {
         terminal.enterPrivateMode();
         Player player = new Player(0, 0);
-        enemies.add(enemy1);
-        enemies.add(enemy2);
-//        enemies.add(enemy3);
-//        enemies.add(enemy4);
-//        enemies.add(enemy5);
-        timer.scheduleAtFixedRate(task, 500, 750);
+
+        allEnemies.add(smartEnemy1);
+        allEnemies.add(smartEnemy2);
+        allEnemies.add(smartEnemy3);
+        allEnemies.add(smartEnemy4);
+        allEnemies.add(stupidEnemy1);
+
+
+        allPowerups.add(damagePowerUp);
+        allPowerups.add(healthPowerUp);
+        allPowerups.add(scorePowerUp);
+
+
+        timer.scheduleAtFixedRate(task, 500, 300);
     }
 
     public void readMap() {
         try {
             lines = Files.readAllLines(Paths.get("src/map.txt"), StandardCharsets.UTF_8);
-
             for (int i = 0; i < map.length; i++) {
                 for (int y = 0; y < 70; y++) {
                     map[i][y] = lines.get(i).charAt(y);
+
                 }
             }
             String s = lines.get(0);
@@ -95,82 +115,25 @@ public class Renderer {
 
     }
 
-    public void updateEnemy  (){
-
-            int newPosX = 0;
-            int newPosY = 0;
-            for (int i = 0; i < enemies.size(); i++) {
-                newPosX = rand.nextInt(2 + 1) - 1;
-                newPosY = rand.nextInt(2 + 1) - 1;
-                if (enemies.get(i).type.equals("Dumb")) {
-                    if (inBounds(enemies.get(i).getX() + newPosX, enemies.get(i).getY() + newPosY)) {
-                        enemies.get(i).tempPosX = newPosX; // används i collisionDetection, för att se om newPos får användas
-                        enemies.get(i).tempPosY = newPosY;
-//                if (!collisionDetection()) {
-                        enemies.get(i).update(newPosX, newPosY);
-                        map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
-//                }
-                    }
-                }
-                if (enemies.get(i).type.equals("Follow")) {
-                    standardPatternAI(i);
+    public void updateEnemy() {
+        int newPosX = 0;
+        int newPosY = 0;
+        for (int i = 0; i < allEnemies.size(); i++) {
+            if (inBounds(allEnemies.get(i).getX() + newPosX, allEnemies.get(i).getY() + newPosY)) { // KOLLA NÄSTA POSITION!!! HAR EJ GJORTS
+                if (allEnemies.get(i).type.contains("Stupid")) {
+                    allEnemies.get(i).pattern(player, allEnemies.get(i));
+                    map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = 'E';
+                } else if (allEnemies.get(i).type.equals("Smart")) {
+                    allEnemies.get(i).pattern(player, allEnemies.get(i));
                 }
             }
-    }
-
-    public void standardPatternAI(int i) {
-        int randomNum = rand.nextInt(2) + 1;
-        int x;
-        int y;
-
-        if (player.getX() < enemies.get(i).getX() && player.getY() < enemies.get(i).getY()) {
-            if (randomNum == 1) {
-                x = enemies.get(i).getX() - 1;
-                enemies.get(i).setX(x);
-            } else {
-                y = enemies.get(i).getY() - 1;
-                enemies.get(i).setY(y);
-            }
-        } else if (player.getX() > enemies.get(i).getX() && player.getY() > enemies.get(i).getY()) {
-            if (randomNum == 1) {
-                x = enemies.get(i).getX() + 1;
-                enemies.get(i).setX(x);
-            } else {
-                y = enemies.get(i).getY() + 1;
-                enemies.get(i).setY(y);
-            }
-        } else if (player.getX() < enemies.get(i).getX() && player.getY() > enemies.get(i).getY()) {
-            if (randomNum == 1) {
-                x = enemies.get(i).getX() - 1;
-                enemies.get(i).setX(x);
-            } else {
-                y = enemies.get(i).getY() + 1;
-                enemies.get(i).setY(y);
-            }
-        } else if (player.getX() > enemies.get(i).getX() && player.getY() < enemies.get(i).getY()) {
-            if (randomNum == 1) {
-                x = enemies.get(i).getX() + 1;
-                enemies.get(i).setX(x);
-            } else {
-                y = enemies.get(i).getY() - 1;
-                enemies.get(i).setY(y);
-            }
-        } else if (player.getX() < enemies.get(i).getX()) {
-            x = enemies.get(i).getX() - 1;
-            enemies.get(i).setX(x);
-        } else if (player.getX() > enemies.get(i).getX()) {
-            x = enemies.get(i).getX() + 1;
-            enemies.get(i).setX(x);
-        } else if (player.getY() < enemies.get(i).getY()) {
-            y = enemies.get(i).getY() - 1;
-            enemies.get(i).setY(y);
-        } else if (player.getY() > enemies.get(i).getY()) {
-            y = enemies.get(i).getY() + 1;
-            enemies.get(i).setY(y);
         }
     }
 
     public void renderScores() {
+        if (player.highScore >= 100) {
+            System.exit(0);
+        }
 
         int hp = player.hitPoints;
         int score = player.highScore;
@@ -224,16 +187,21 @@ public class Renderer {
             c = s2.charAt(0);
             terminal.putCharacter(c);
         }
-
     }
 
     public void updatePlayer(int newPosX, int newPosY) {
+        player.tempPosX = newPosX;
+        player.tempPosY = newPosY;
 
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
-//            if(!collisionDetection()){
-            player.update(newPosX, newPosY);
-            map[player.getY()][player.getX()] = ' ';
-//            }
+            if (!collisionDetection()) {
+                map[player.getY()][player.getX()] = ' ';
+                player.update(newPosX, newPosY);
+            } else {
+                map[player.getY()][player.getX()] = ' ';
+                player.update(newPosX, newPosY);
+                collectPowerUp();
+            }
         }
     }
 
@@ -243,30 +211,50 @@ public class Renderer {
         map[player.getY()][player.getX()] = 'P';
         terminal.putCharacter('P');
 
-        for (int i = 0; i < enemies.size(); i++) {
-            if (meleeAttack(i) && enterPressed && enemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
-                player.setHighScore(player.getHighScore() + 5);
+        for (int i = 0; i < allEnemies.size(); i++) {
+            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
+                player.setHighScore(player.getHighScore() + player.powerUpHighScore);
                 renderScores();
-                enemies.get(i).isAlive = false;
+                allEnemies.get(i).isAlive = false;
                 enterPressed = false;
             }
-            if (enemies.get(i).isAlive) {
-                enemies.get(i).setC('E');
-                terminal.moveCursor(enemies.get(i).getX(), enemies.get(i).getY());
+            if (allEnemies.get(i).isAlive) {
+                allEnemies.get(i).setC('E');
+                terminal.moveCursor(allEnemies.get(i).getX(), allEnemies.get(i).getY());
                 terminal.putCharacter('E');
-                map[enemies.get(i).getY()][enemies.get(i).getX()] = 'E';
+                map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = 'E';
             } else {   // WHEN DEAD, REMOVE CHARACTER E
-                enemies.get(i).setC(' ');
-                map[enemies.get(i).getY()][enemies.get(i).getX()] = enemies.get(i).getC();
+                allEnemies.get(i).setC(' ');
+                map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = allEnemies.get(i).getC();
             }
         }
+        for (int i = 0; i < allPowerups.size(); i++) {
+            if (!allPowerups.get(i).isPickedUp()) {
+                terminal.moveCursor(allPowerups.get(i).getX(), allPowerups.get(i).getY());
+                terminal.putCharacter('H');
+                map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = 'H';
+            } else {
 
+                terminal.moveCursor(allPowerups.get(i).getX(), allPowerups.get(i).getY());
+                terminal.putCharacter(' ');
+                map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = ' ';
+            }
+        }
+    }
+
+    public void collectPowerUp() { ////////////// ÄNDRAT 1/12
+        for (int i = 0; i < allPowerups.size(); i++) {
+            if (allPowerups.get(i).isPickedUp()) {
+                allPowerups.get(i).setPickedUp(false);
+                allPowerups.get(i).powerUp(player);
+            }
+        }
     }
 
     public boolean inBounds(int x, int y) {
         boolean inBound = false;
-        if (x < 68 && y < 19) {
-            if (x > 0 && y > 2)
+        if (x < 68 && y < 23) {
+            if (x > 0 && y > 3)
                 inBound = true;
         }
         return inBound;
@@ -281,9 +269,24 @@ public class Renderer {
     }
 
     public boolean collisionDetection() {
-        if (map[player.tempPosX][player.tempPosY] == 'E') {
-            collided = true;
-        }
+//        if (map[player.getX() + player.tempPosX][player.getY() + player.tempPosY] == 'E') {
+        collided = false;
+//        }
+//        for (int i = 0; i < allPowerups.size(); i++) {      ////////////// ÄNDRAT 1/12
+//            if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'S') { // ADD player.tempPos
+//                allPowerups.get(i).setPickedUp(true);
+//                collided = true;
+//                break;
+//            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'H') {
+//                allPowerups.get(i).setPickedUp(true);
+//                collided = true;
+//                break;
+//            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'D') {
+//                allPowerups.get(i).setPickedUp(true);
+//                collided = true;
+//                break;
+//            }
+//        }
 //        for (int i = 0; i < enemies.size(); i++) { FUNKAR EJ
 //            if (map[enemies.get(i).getX() + enemies.get(i).tempPosX][enemies.get(i).getY() + enemies.get(i).tempPosY] == 'P') {
 //                collided = true;
@@ -301,9 +304,9 @@ public class Renderer {
         int pdistanceY = player.getY();
         int edistanceX;
         int edistanceY;
-        for (int i = 0; i < enemies.size(); i++) {
-            edistanceX = enemies.get(placeInList).getX();
-            edistanceY = enemies.get(placeInList).getY();
+        for (int i = 0; i < allEnemies.size(); i++) {
+            edistanceX = allEnemies.get(placeInList).getX();
+            edistanceY = allEnemies.get(placeInList).getY();
             if (pdistanceX - edistanceX == 1 || edistanceX - pdistanceX == 1 || pdistanceX - edistanceX == 0 || edistanceX - pdistanceX == 0) {
                 if (pdistanceY - edistanceY == 1 || edistanceY - pdistanceY == 1 || pdistanceY - edistanceY == 0 || edistanceY - pdistanceY == 0) {
                     attack = true;

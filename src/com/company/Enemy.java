@@ -18,14 +18,13 @@ public class Enemy {
     char c = 'E';
     boolean isAlive = true;
     Random rand = new Random();
-    String type = "";
     public Enemy() {
     }
 
-    public Enemy(int x, int y, String type) {
+    public Enemy(int x, int y) {
         this.x = x;
         this.y = y;
-        this.type = type;
+
     }
 
     public int getX() {

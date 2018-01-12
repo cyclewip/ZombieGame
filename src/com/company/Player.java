@@ -5,9 +5,28 @@ import java.security.Key;
 public class Player {
     public int x = 0;
     public int y = 0;
+
+    public int getPowerUpHighScore() {
+        return powerUpHighScore;
+    }
+
+    public void setPowerUpHighScore(int powerUpHighScore) {
+        this.powerUpHighScore = powerUpHighScore;
+    }
+
+    public int getPowerUpDamage() {
+        return powerUpDamage;
+    }
+
+    public void setPowerUpDamage(int powerUpDamage) {
+        this.powerUpDamage = powerUpDamage;
+    }
+
     public int tempPosX, tempPosY;
     int hitPoints = 100;
     int highScore = 0;
+    int powerUpHighScore = 5;
+    int powerUpDamage = 10;
     Key key;
 
     public Key getKey() {
