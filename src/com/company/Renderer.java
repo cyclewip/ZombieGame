@@ -18,7 +18,6 @@ public class Renderer {
     Terminal terminal = TerminalFacade.createTerminal(System.in,
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
-    List<Enemy> enemies = new ArrayList<Enemy>();
     List<Archetype> allEnemies = new ArrayList<Archetype>();
     List<Powerup> allPowerups = new ArrayList<Powerup>();
     boolean collided = false;
@@ -35,7 +34,7 @@ public class Renderer {
     Random rand = new Random();
 
 
-    Player player = new Player(4, 3);
+    Player player = new Player(11, 10);
     Archetype smartEnemy1 = new SmartEnemy(7, 7, "Smart");
     Archetype smartEnemy2 = new SmartEnemy(7, 9, "Smart");
     Archetype smartEnemy3 = new SmartEnemy(9, 7, "Smart");
@@ -43,10 +42,9 @@ public class Renderer {
     Archetype stupidEnemy1 = new StupidEnemy(13, 13, "Stupid");
 
 
-    Powerup healthPowerUp = new HealthPowerUp(10, 15);
-    Powerup scorePowerUp = new ScorePowerUp(10, 17);
-    Powerup damagePowerUp = new DamagePowerUp(10, 19);
-
+    Powerup healthPowerUp = new HealthPowerUp(10, 10);
+//    Powerup scorePowerUp = new ScorePowerUp(10, 17);
+//    Powerup damagePowerUp = new DamagePowerUp(10, 19);
 
     public Renderer() {
 
@@ -65,18 +63,17 @@ public class Renderer {
 
     public void start() {
         terminal.enterPrivateMode();
-        Player player = new Player(0, 0);
 
-        allEnemies.add(smartEnemy1);
-        allEnemies.add(smartEnemy2);
-        allEnemies.add(smartEnemy3);
-        allEnemies.add(smartEnemy4);
+//        allEnemies.add(smartEnemy1);
+//        allEnemies.add(smartEnemy2);
+//        allEnemies.add(smartEnemy3);
+//        allEnemies.add(smartEnemy4);
         allEnemies.add(stupidEnemy1);
 
 
-        allPowerups.add(damagePowerUp);
         allPowerups.add(healthPowerUp);
-        allPowerups.add(scorePowerUp);
+//        allPowerups.add(healthPowerUp);
+//        allPowerups.add(scorePowerUp);
 
 
         timer.scheduleAtFixedRate(task, 500, 300);
@@ -109,10 +106,6 @@ public class Renderer {
         }
     }
 
-    public void updateRate() {
-
-    }
-
     public void updateEnemy() {
         int newPosX = 0;
         int newPosY = 0;
@@ -128,7 +121,6 @@ public class Renderer {
         }
     }
 
-
     public void renderScores() {
         if (player.highScore >= 100) {
             System.exit(0);
@@ -142,47 +134,47 @@ public class Renderer {
 
         //// CHECKING FOR HITPOINTS
         if (s.length() > 2) {
-            terminal.moveCursor(21, 1);
+            terminal.moveCursor(21, 2);
             c = s.charAt(0);
             terminal.putCharacter(c);
-            terminal.moveCursor(22, 1);
+            terminal.moveCursor(22, 2);
             c = s.charAt(1);
             terminal.putCharacter(c);
-            terminal.moveCursor(23, 1);
+            terminal.moveCursor(23, 2);
             c = s.charAt(2);
             terminal.putCharacter(c);
         } else if (s.length() > 1) {
-            terminal.moveCursor(21, 1);
+            terminal.moveCursor(21, 2);
             c = s.charAt(0);
             terminal.putCharacter(c);
             terminal.moveCursor(22, 1);
             c = s.charAt(1);
             terminal.putCharacter(c);
         } else if (s.length() > 0) {
-            terminal.moveCursor(21, 1);
+            terminal.moveCursor(21, 2);
             c = s.charAt(0);
             terminal.putCharacter(c);
         }
         //// CHECKING FOR HIGHSCORE
         if (s2.length() > 2) {
-            terminal.moveCursor(32, 1);
+            terminal.moveCursor(32, 2);
             c = s2.charAt(0);
             terminal.putCharacter(c);
-            terminal.moveCursor(33, 1);
+            terminal.moveCursor(33, 2);
             c = s2.charAt(1);
             terminal.putCharacter(c);
-            terminal.moveCursor(34, 1);
+            terminal.moveCursor(34, 2);
             c = s2.charAt(2);
             terminal.putCharacter(c);
         } else if (s2.length() > 1) {
-            terminal.moveCursor(32, 1);
+            terminal.moveCursor(32, 2);
             c = s2.charAt(0);
             terminal.putCharacter(c);
-            terminal.moveCursor(33, 1);
+            terminal.moveCursor(33, 2);
             c = s2.charAt(1);
             terminal.putCharacter(c);
         } else if (s2.length() > 0) {
-            terminal.moveCursor(32, 1);
+            terminal.moveCursor(32, 2);
             c = s2.charAt(0);
             terminal.putCharacter(c);
         }
@@ -193,14 +185,12 @@ public class Renderer {
         player.tempPosY = newPosY;
 
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
-            if (!collisionDetection()) {
-                map[player.getY()][player.getX()] = ' ';
-                player.update(newPosX, newPosY);
-            } else {
-                map[player.getY()][player.getX()] = ' ';
-                player.update(newPosX, newPosY);
+            map[player.getY()][player.getX()] = ' ';
+
+            if (collisionDetection()) {
                 collectPowerUp();
             }
+            player.update(newPosX, newPosY);
         }
     }
 
@@ -271,30 +261,22 @@ public class Renderer {
 //        if (map[player.getX() + player.tempPosX][player.getY() + player.tempPosY] == 'E') {
         collided = false;
 //        }
-//        for (int i = 0; i < allPowerups.size(); i++) {      ////////////// ÄNDRAT 1/12
-//            if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'S') { // ADD player.tempPos
-//                allPowerups.get(i).setPickedUp(true);
-//                collided = true;
-//                break;
-//            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'H') {
-//                allPowerups.get(i).setPickedUp(true);
-//                collided = true;
-//                break;
-//            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'D') {
-//                allPowerups.get(i).setPickedUp(true);
-//                collided = true;
-//                break;
-//            }
-//        }
-//        for (int i = 0; i < enemies.size(); i++) { FUNKAR EJ
-//            if (map[enemies.get(i).getX() + enemies.get(i).tempPosX][enemies.get(i).getY() + enemies.get(i).tempPosY] == 'P') {
-//                collided = true;
-//                enemies.get(i).hasCollided = true;
-//                break;
-//            }
-//        }
+        for (int i = 0; i < allPowerups.size(); i++) {      ////////////// ÄNDRAT 1/12
+            if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'S') { // ADD player.tempPos
+                allPowerups.get(i).setPickedUp(true);
+                collided = true;
+                break;
+            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'H') {
+                allPowerups.get(i).setPickedUp(true);
+                collided = true;
+                break;
+            } else if (map[player.getX() + player.getTempPosX()][player.getY() + player.getTempPosY()] == 'D') {
+                allPowerups.get(i).setPickedUp(true);
+                collided = true;
+                break;
+            }
+        }
         return collided;
-
     }
 
     public boolean meleeAttack(int placeInList) {
