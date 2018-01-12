@@ -43,8 +43,6 @@ public class Renderer {
     Archetype stupidEnemy1 = new StupidEnemy(13, 13, "Stupid");
 
 
-
-
     Powerup healthPowerUp = new HealthPowerUp(10, 15);
     Powerup scorePowerUp = new ScorePowerUp(10, 17);
     Powerup damagePowerUp = new DamagePowerUp(10, 19);
@@ -129,6 +127,7 @@ public class Renderer {
             }
         }
     }
+
 
     public void renderScores() {
         if (player.highScore >= 100) {

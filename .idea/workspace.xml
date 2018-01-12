@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/com/company/Renderer.java" line="196" />
+    <bookmark url="file://$PROJECT_DIR$/src/com/company/Renderer.java" line="195" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc391289-33a6-4a02-8381-116317efe949" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/company/DamagePowerUp.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/company/HealthPowerUp.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/company/Powerup.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/company/ScorePowerUp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Enemy.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Enemy.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Player.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Player.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main$1.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Renderer.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Renderer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/map.txt" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/map.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/HighScoreMenu" afterPath="$PROJECT_DIR$/src/HighScoreMenu" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Archetype.java" afterPath="$PROJECT_DIR$/src/com/company/Archetype.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Enemy.java" afterPath="$PROJECT_DIR$/src/com/company/Enemy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Player.java" afterPath="$PROJECT_DIR$/src/com/company/Player.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Renderer.java" afterPath="$PROJECT_DIR$/src/com/company/Renderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/SmartEnemy.java" afterPath="$PROJECT_DIR$/src/com/company/SmartEnemy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/StupidEnemy.java" afterPath="$PROJECT_DIR$/src/com/company/StupidEnemy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/tempAI.java" afterPath="$PROJECT_DIR$/src/com/company/tempAI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/map.txt" afterPath="$PROJECT_DIR$/src/map.txt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,18 +31,20 @@
       <file leaf-file-name="Renderer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Renderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="285" column="34" lean-forward="true" selection-start-line="285" selection-start-column="34" selection-end-line="285" selection-end-column="34" />
+            <state relative-caret-position="-40">
+              <caret line="265" column="25" lean-forward="true" selection-start-line="265" selection-start-column="25" selection-end-line="265" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#625#633#0" expanded="true" />
                 <element signature="e#676#683#0" expanded="true" />
                 <element signature="e#733#744#0" expanded="true" />
                 <element signature="e#793#802#0" expanded="true" />
-                <element signature="e#1767#1968#0" expanded="true" />
-                <element signature="e#1967#1968#0" expanded="true" />
-                <element signature="e#8650#8651#0" expanded="true" />
-                <element signature="e#8688#8689#0" expanded="true" />
+                <element signature="e#1765#1966#0" expanded="true" />
+                <element signature="e#1965#1966#0" expanded="true" />
+                <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
+                <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
+                <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+                <element signature="e#8687#8688#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -214,7 +204,6 @@
       <find>draw</find>
       <find>renderstuff</find>
       <find>score</find>
-      <find>updateenem</find>
       <find>render</find>
       <find>melee</find>
       <find>highscore</find>
@@ -225,6 +214,7 @@
       <find>collect</find>
       <find>powerup</find>
       <find>map</find>
+      <find>updateenem</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -462,12 +452,12 @@
       <workItem from="1515506449918" duration="5383000" />
       <workItem from="1515511987649" duration="1796000" />
       <workItem from="1515520312724" duration="10842000" />
-      <workItem from="1515657963792" duration="22648000" />
+      <workItem from="1515657963792" duration="22942000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48437000" />
+    <option name="totallyTimeSpent" value="48731000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -525,10 +515,12 @@
             <element signature="e#676#683#0" expanded="true" />
             <element signature="e#733#744#0" expanded="true" />
             <element signature="e#793#802#0" expanded="true" />
-            <element signature="e#1767#1968#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#8650#8651#0" expanded="true" />
-            <element signature="e#8688#8689#0" expanded="true" />
+            <element signature="e#1765#1966#0" expanded="true" />
+            <element signature="e#1965#1966#0" expanded="true" />
+            <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
+            <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
+            <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -610,10 +602,12 @@
             <element signature="e#676#683#0" expanded="true" />
             <element signature="e#733#744#0" expanded="true" />
             <element signature="e#793#802#0" expanded="true" />
-            <element signature="e#1767#1968#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#8650#8651#0" expanded="true" />
-            <element signature="e#8688#8689#0" expanded="true" />
+            <element signature="e#1765#1966#0" expanded="true" />
+            <element signature="e#1965#1966#0" expanded="true" />
+            <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
+            <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
+            <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -687,10 +681,12 @@
             <element signature="e#676#683#0" expanded="true" />
             <element signature="e#733#744#0" expanded="true" />
             <element signature="e#793#802#0" expanded="true" />
-            <element signature="e#1767#1968#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#8650#8651#0" expanded="true" />
-            <element signature="e#8688#8689#0" expanded="true" />
+            <element signature="e#1765#1966#0" expanded="true" />
+            <element signature="e#1965#1966#0" expanded="true" />
+            <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
+            <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
+            <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -764,10 +760,12 @@
             <element signature="e#676#683#0" expanded="true" />
             <element signature="e#733#744#0" expanded="true" />
             <element signature="e#793#802#0" expanded="true" />
-            <element signature="e#1767#1968#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#8650#8651#0" expanded="true" />
-            <element signature="e#8688#8689#0" expanded="true" />
+            <element signature="e#1765#1966#0" expanded="true" />
+            <element signature="e#1965#1966#0" expanded="true" />
+            <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
+            <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
+            <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1107,18 +1105,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Renderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="285" column="34" lean-forward="true" selection-start-line="285" selection-start-column="34" selection-end-line="285" selection-end-column="34" />
+        <state relative-caret-position="-40">
+          <caret line="265" column="25" lean-forward="true" selection-start-line="265" selection-start-column="25" selection-end-line="265" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#625#633#0" expanded="true" />
             <element signature="e#676#683#0" expanded="true" />
             <element signature="e#733#744#0" expanded="true" />
             <element signature="e#793#802#0" expanded="true" />
-            <element signature="e#1767#1968#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#8650#8651#0" expanded="true" />
-            <element signature="e#8688#8689#0" expanded="true" />
+            <element signature="e#1765#1966#0" expanded="true" />
+            <element signature="e#1965#1966#0" expanded="true" />
+            <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
+            <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
+            <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
       </provider>
