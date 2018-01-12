@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc391289-33a6-4a02-8381-116317efe949" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main$1.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Renderer.class" afterPath="$PROJECT_DIR$/out/production/Spelprojekt3/com/company/Renderer.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/company/Enemy.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/company/tempAI.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Renderer.java" afterPath="$PROJECT_DIR$/src/com/company/Renderer.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="Renderer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Renderer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Renderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-40">
-              <caret line="265" column="25" lean-forward="true" selection-start-line="265" selection-start-column="25" selection-end-line="265" selection-end-column="25" />
+            <state relative-caret-position="702">
+              <caret line="294" column="11" lean-forward="true" selection-start-line="294" selection-start-column="11" selection-end-line="294" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#625#633#0" expanded="true" />
@@ -44,6 +41,7 @@
                 <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
                 <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
                 <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+                <element signature="e#8649#8650#0" expanded="true" />
                 <element signature="e#8687#8688#0" expanded="true" />
               </folding>
             </state>
@@ -90,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HighScoreMenu" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HighScoreMenu" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/HighScoreMenu">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-153">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="70" />
+            <state relative-caret-position="289">
+              <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -106,33 +104,6 @@
             <state relative-caret-position="546">
               <caret line="21" column="70" lean-forward="true" selection-start-line="21" selection-start-column="70" selection-end-line="21" selection-end-column="70" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HealthPowerUp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/company/HealthPowerUp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="53" column="9" lean-forward="true" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
-              <folding>
-                <element signature="e#211#212#0" expanded="true" />
-                <element signature="e#242#243#0" expanded="true" />
-                <element signature="e#291#292#0" expanded="true" />
-                <element signature="e#331#332#0" expanded="true" />
-                <element signature="e#370#371#0" expanded="true" />
-                <element signature="e#394#395#0" expanded="true" />
-                <element signature="e#439#440#0" expanded="true" />
-                <element signature="e#465#466#0" expanded="true" />
-                <element signature="e#504#505#0" expanded="true" />
-                <element signature="e#528#529#0" expanded="true" />
-                <element signature="e#573#574#0" expanded="true" />
-                <element signature="e#599#600#0" expanded="true" />
-                <element signature="e#644#645#0" expanded="true" />
-                <element signature="e#671#672#0" expanded="true" />
-                <element signature="e#725#726#0" expanded="true" />
-                <element signature="e#757#758#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -452,12 +423,12 @@
       <workItem from="1515506449918" duration="5383000" />
       <workItem from="1515511987649" duration="1796000" />
       <workItem from="1515520312724" duration="10842000" />
-      <workItem from="1515657963792" duration="22942000" />
+      <workItem from="1515657963792" duration="23535000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48731000" />
+    <option name="totallyTimeSpent" value="49324000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -520,6 +491,7 @@
             <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
             <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
             <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8649#8650#0" expanded="true" />
             <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
@@ -575,10 +547,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
           <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <element signature="e#498#499#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -607,6 +576,7 @@
             <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
             <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
             <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8649#8650#0" expanded="true" />
             <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
@@ -664,10 +634,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
           <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-          <folding>
-            <element signature="e#498#499#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -686,6 +653,7 @@
             <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
             <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
             <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8649#8650#0" expanded="true" />
             <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
@@ -743,10 +711,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="858">
           <caret line="45" column="24" lean-forward="true" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
-          <folding>
-            <element signature="e#498#499#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -765,6 +730,7 @@
             <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
             <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
             <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8649#8650#0" expanded="true" />
             <element signature="e#8687#8688#0" expanded="true" />
           </folding>
         </state>
@@ -820,10 +786,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
           <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding>
-            <element signature="e#498#499#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -841,10 +804,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding>
-            <element signature="e#498#499#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -869,17 +829,6 @@
         <state relative-caret-position="884">
           <caret line="91" column="7" lean-forward="true" selection-start-line="73" selection-start-column="4" selection-end-line="91" selection-end-column="7" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Enemy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="45" column="4" lean-forward="true" selection-start-line="45" selection-start-column="4" selection-end-line="50" selection-end-column="5" />
-          <folding>
-            <element signature="e#498#499#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1079,14 +1028,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/HighScoreMenu">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/map.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="546">
@@ -1105,8 +1046,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Renderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-40">
-          <caret line="265" column="25" lean-forward="true" selection-start-line="265" selection-start-column="25" selection-end-line="265" selection-end-column="25" />
+        <state relative-caret-position="702">
+          <caret line="294" column="11" lean-forward="true" selection-start-line="294" selection-start-column="11" selection-end-line="294" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#625#633#0" expanded="true" />
@@ -1118,8 +1059,25 @@
             <element signature="method#renderScores#0;class#Renderer#0" expanded="false" />
             <element signature="method#updatePlayer#0;class#Renderer#0" expanded="false" />
             <element signature="method#renderStuff#0;class#Renderer#0" expanded="false" />
+            <element signature="e#8649#8650#0" expanded="true" />
             <element signature="e#8687#8688#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Enemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="45" column="4" lean-forward="true" selection-start-line="45" selection-start-column="4" selection-end-line="50" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/HighScoreMenu">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
