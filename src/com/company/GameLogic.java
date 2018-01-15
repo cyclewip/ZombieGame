@@ -6,15 +6,14 @@ import java.util.Random;
 
 public class GameLogic {
     Renderer rend = new Renderer();
-
     public void gameLoop() throws InterruptedException {
         Random rand = new Random();
 
         rend.terminal.setCursorVisible(false);
-
         rend.start();
 
         while (true) {
+
             //Wait for a key to be pressed
             Key key;
             do {

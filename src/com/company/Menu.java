@@ -27,19 +27,30 @@ public class Menu {
     public void Run() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
 
-//        rend.terminal.enterPrivateMode();
         logic.rend.terminal.enterPrivateMode();
         Key key;
         int input;
         drawEverything();
         while (true) {
             //Wait for a key to be pressed
-
             do {
-//                key = rend.terminal.readInput();
                 key = logic.rend.terminal.readInput();
+
             }
             while (key == null);
+
+//            if(logic.rend.player.isLost()){
+//                menuType = "GAMEOVER";
+//                okay = false;
+//                drawEverything();
+//            }
+//            if(logic.rend.player.isWon()){
+//                menuType = "WINMENU";
+//                okay = false;
+//                drawEverything();
+//            }
+
+
             switch (key.getKind()) {
                 case F1:
                     if (okay) {

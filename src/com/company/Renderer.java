@@ -68,11 +68,9 @@ public class Renderer {
     TimerTask task2 = new TimerTask() { // TIMER FOR ATTACKS OF ENEMIES
         @Override
         public void run() {
-
             System.out.println("attacked");
             if (player.getHitPoints() > 0 && enemiesInrange > 0)
                 player.setHitPoints(player.getHitPoints() - enemiesInrange * 5);
-
         }
     };
 
@@ -151,6 +149,13 @@ public class Renderer {
     }
 
     public void renderScores() {
+
+             if (player.getHitPoints() <= 0) {
+                player.setLost(true);
+             }
+             if (player.getHighScore() >= 5) {
+                 player.setWon(true);
+             }
 
         int hp = player.hitPoints;
         int score = player.highScore;

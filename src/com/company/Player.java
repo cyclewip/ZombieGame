@@ -6,6 +6,7 @@ public class Player {
     public int x = 0;
     public int y = 0;
 
+
     public int getPowerUpHighScore() {
         return powerUpHighScore;
     }
@@ -23,11 +24,29 @@ public class Player {
     }
 
     public int tempPosX, tempPosY;
-    int hitPoints = 100;
+    int hitPoints = 10;
     int highScore = 0;
     int powerUpHighScore = 5;
     int powerUpDamage = 10;
     Key key;
+    boolean won = false;
+    boolean lost = false;
+
+    public boolean isWon() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
+    }
+
+    public boolean isLost() {
+        return lost;
+    }
+
+    public void setLost(boolean lost) {
+        this.lost = lost;
+    }
 
     public Key getKey() {
         return key;
