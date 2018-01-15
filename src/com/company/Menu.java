@@ -79,7 +79,9 @@ public class Menu {
                     break;
                 case F4:
                     if(okay){
-                        menuType = "GAMEOVER";
+                        menuType = "ENDCREDITS";
+                        drawEverything();
+                        Thread.sleep(5000);
                         System.exit(0);
                     }
                     break;
@@ -109,7 +111,10 @@ public class Menu {
                 lines = Files.readAllLines(Paths.get("src/GameOverMenu.txt"), StandardCharsets.UTF_8);
             }
             if (menuType.contains("WINMENU")) {
-                lines = Files.readAllLines(Paths.get("src/WinMenu"), StandardCharsets.UTF_8);
+                lines = Files.readAllLines(Paths.get("src/WinMenu.txt"), StandardCharsets.UTF_8);
+            }
+            if (menuType.contains("ENDCREDITS")) {
+                lines = Files.readAllLines(Paths.get("src/EndCredits.txt"), StandardCharsets.UTF_8);
             }
 
             for (int i = 0; i < menu.length; i++) {
