@@ -10,7 +10,6 @@ public class GameLogic {
     public void gameLoop() throws InterruptedException {
         Random rand = new Random();
 
-
         rend.terminal.setCursorVisible(false);
 
         rend.start();

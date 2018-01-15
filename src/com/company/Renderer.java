@@ -151,13 +151,6 @@ public class Renderer {
     }
 
     public void renderScores() {
-        if (player.highScore >= 100) {
-            System.exit(0);
-        }
-        if (player.getHitPoints() <= 0) {
-            System.exit(0);
-        }
-
 
         int hp = player.hitPoints;
         int score = player.highScore;
