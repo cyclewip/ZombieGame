@@ -7,16 +7,16 @@
 |                             HELP MENU                              |
 |                                                                    |
 |                                                                    |
-|                     INFO:                                          |
+|                                                                    |
+|                    USE THE THE ARROW KEYS TO MOVE                  |
+|                                                                    |
+|                      PRESS ENTER TO HIT ZOMBIES                    |
 |                                                                    |
 |                                                                    |
 |                                                                    |
 |                                                                    |
 |                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                             1. BACK                                |
+|                             F1. BACK                               |
 |                                                                    |
 ----------------------------------------------------------------------
 |                       Choose back to continue                      |

@@ -8,10 +8,10 @@
 |                                                                    |
 |                                                                    |
 |                     OPTIONS:                                       |
-|                             1. NEW GAME                            |
-|                             2. HIGH SCORE                          |
-|                             3. HELP                                |
-|                             4. QUIT GAME                           |
+|                             F1. NEW GAME                           |
+|                             F2. HIGH SCORE                         |
+|                             F3. HELP                               |
+|                             F4. QUIT GAME                          |
 |                                                                    |
 |                                                                    |
 |                                                                    |

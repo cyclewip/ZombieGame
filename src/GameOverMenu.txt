@@ -9,8 +9,8 @@
 |                                                                    |
 |                             CONTINUE?                              |
 |                                                                    |
-|                             1. YES                                 |
-|                             2. NO                                  |
+|                             F1. YES                                |
+|                             F2. NO                                 |
 |                                                                    |
 |                                                                    |
 |                                                                    |
