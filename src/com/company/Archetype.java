@@ -7,6 +7,7 @@ public abstract class Archetype {
     public int tempPosY;
     String type = "";
     boolean isAlive = true;
+    boolean inRange = false;
     char c = 'E';
 
     public Archetype() {

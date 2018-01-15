@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class GameLogic {
     Renderer rend = new Renderer();
+
     public void gameLoop() throws InterruptedException {
         Random rand = new Random();
 

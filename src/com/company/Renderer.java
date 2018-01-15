@@ -26,6 +26,7 @@ public class Renderer {
     public boolean enterPressed = false;
     boolean secondPassed = false;
     int meleeAttackCounter = 0;
+    int enemiesInrange = 0;
 
     char[][] map = new char[24][70];
     char[][] mapMainMenu = new char[24][70];
@@ -63,6 +64,17 @@ public class Renderer {
             System.out.println("enemytimer" + enemyTimer);
         }
     };
+    Timer timer2 = new Timer();
+    TimerTask task2 = new TimerTask() { // TIMER FOR ATTACKS OF ENEMIES
+        @Override
+        public void run() {
+
+            System.out.println("attacked");
+            if (player.getHitPoints() > 0 && enemiesInrange > 0)
+                player.setHitPoints(player.getHitPoints() - enemiesInrange * 5);
+
+        }
+    };
 
     public void start() {
 //        terminal.enterPrivateMode();
@@ -74,6 +86,7 @@ public class Renderer {
         allPowerups.add(scorePowerUp);
         allPowerups.add(damagePowerUp);
         timer.scheduleAtFixedRate(task, 500, 300);
+        timer2.scheduleAtFixedRate(task2, 500, 750);
     }
 
     public void readMap() {
@@ -82,7 +95,6 @@ public class Renderer {
             for (int i = 0; i < map.length; i++) {
                 for (int y = 0; y < 70; y++) {
                     map[i][y] = lines.get(i).charAt(y);
-
                 }
             }
             String s = lines.get(0);
@@ -108,8 +120,8 @@ public class Renderer {
         int randY = rand.nextInt(10) + 8;
         int r = rand.nextInt(2) + 1;
         int maxEnemies = 0;
-        for(int i = 0; i < allEnemies.size(); i++){
-            if(allEnemies.get(i).isAlive)
+        for (int i = 0; i < allEnemies.size(); i++) {
+            if (allEnemies.get(i).isAlive)
                 maxEnemies++;
 
         }
@@ -142,6 +154,10 @@ public class Renderer {
         if (player.highScore >= 100) {
             System.exit(0);
         }
+        if (player.getHitPoints() <= 0) {
+            System.exit(0);
+        }
+
 
         int hp = player.hitPoints;
         int score = player.highScore;
@@ -303,7 +319,9 @@ public class Renderer {
         return collided;
     }
 
-    public boolean meleeAttack(int placeInList) {
+
+    public boolean meleeAttack(int placeInList) {   /// CHECKS IF PLAYER/ENEMY IS IN RANGE, and PLAYER gets true attack, enemy gets true inRange
+        enemiesInrange = 0;
         attack = false;
         int pdistanceX = player.getX();
         int pdistanceY = player.getY();
@@ -315,11 +333,22 @@ public class Renderer {
             if (pdistanceX - edistanceX == 1 || edistanceX - pdistanceX == 1 || pdistanceX - edistanceX == 0 || edistanceX - pdistanceX == 0) {
                 if (pdistanceY - edistanceY == 1 || edistanceY - pdistanceY == 1 || pdistanceY - edistanceY == 0 || edistanceY - pdistanceY == 0) {
                     attack = true;
-
                     break;
                 }
             }
         }
+        for (int i = 0; i < allEnemies.size(); i++) {
+            edistanceX = allEnemies.get(i).getX();
+            edistanceY = allEnemies.get(i).getY();
+            if (pdistanceX - edistanceX == 1 || edistanceX - pdistanceX == 1 || pdistanceX - edistanceX == 0 || edistanceX - pdistanceX == 0) {
+                if (pdistanceY - edistanceY == 1 || edistanceY - pdistanceY == 1 || pdistanceY - edistanceY == 0 || edistanceY - pdistanceY == 0) {
+                    allEnemies.get(i).inRange = true;
+                    enemiesInrange++;
+                }
+            }
+        }
+
+
         return attack;
     }
 }

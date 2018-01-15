@@ -17,23 +17,23 @@ import java.util.Random;
 
 public class Menu {
 
-    //    Renderer rend = new Renderer();
     List<String> lines = new ArrayList<String>();
     char[][] menu = new char[24][70];
     GameLogic logic = new GameLogic();
-
+    String menuType = "";
+    boolean enteredMenu = false;
     public void Run() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
 
 
 //        rend.terminal.enterPrivateMode();
         logic.rend.terminal.enterPrivateMode();
-
+        Key key;
         int input;
         drawMainMenu();
         while (true) {
             //Wait for a key to be pressed
-            Key key;
+
             do {
 //                key = rend.terminal.readInput();
                 key = logic.rend.terminal.readInput();
@@ -41,13 +41,17 @@ public class Menu {
             while (key == null);
             switch (key.getKind()) {
                 case F1:
+                    menuType = "GAME";
                     logic.gameLoop();
                     break;
                 case F2:
+                    menuType = "HELP";
                     break;
                 case F3:
+                    menuType = "HIGHSCORE";
                     break;
                 case F4:
+                    menuType = "MENU";
                     break;
                 case Escape:
                     System.exit(0);
@@ -87,7 +91,16 @@ public class Menu {
         int temp = 0;
         char c;
         try {
-            lines = Files.readAllLines(Paths.get("src/MainMenu"), StandardCharsets.UTF_8);
+
+            if(!enteredMenu){
+                lines = Files.readAllLines(Paths.get("src/MainMenu"), StandardCharsets.UTF_8);
+                enteredMenu = true;
+            }
+            if(menuType == "GAME"){
+//                lines = Files.readAllLines(Paths.get("src/MainMenu"), StandardCharsets.UTF_8);
+//                enteredMenu = true;
+            }
+
             for (int i = 0; i < menu.length; i++) {
                 for (int y = 0; y < 70; y++) {
                     menu[i][y] = lines.get(i).charAt(y);
