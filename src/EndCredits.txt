@@ -4,21 +4,21 @@
 ----------------------------------------------------------------------
 |                                                                    |
 |                                                                    |
-|                             HELP MENU                              |
+|                            END CREDITS                             |
 |                                                                    |
 |                                                                    |
 |                                                                    |
-|                    USE THE THE ARROW KEYS TO MOVE                  |
-|                                                                    |
-|                      PRESS ENTER TO HIT ZOMBIES                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
+|                      JONAS "Fisken" KARLSSON                       |
+|                      TOBIAS "James Pond" ASK                       |
+|                    MARTIN "The Killer" SANDELIN                    |
+|                   MARIE-CHARLOTTE "Toxic" PERSSON                  |
 |                                                                    |
 |                                                                    |
-|                             F1. BACK                               |
+|                                                                    |
+|                                                                    |
+|                                                                    |
 |                                                                    |
 ----------------------------------------------------------------------
-|                       Choose back to continue                      |
+|                 © 2018 Javautvecklare på EC-Utbildning             |
 |                               . . .                                |
 ----------------------------------------------------------------------
