@@ -1,29 +1,109 @@
 package com.company;
 
+import java.util.Scanner;
+
+import com.googlecode.lanterna.TerminalFacade;
+import com.googlecode.lanterna.input.Key;
+import com.googlecode.lanterna.terminal.Terminal;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Menu {
 
-    public void Run() {
+    //    Renderer rend = new Renderer();
+    List<String> lines = new ArrayList<String>();
+    char[][] menu = new char[24][70];
+    GameLogic logic = new GameLogic();
 
-        int playGame = 0;
+    public void Run() throws InterruptedException {
+        Scanner scan = new Scanner(System.in);
 
-        do {
-            switch (playGame) {
-                case 1:
-                    // Draw game board and start game
-                    break;
-                case 2:
-                    // Look at high scores
-                    break;
-                case 3:
-                    // Get help on how to move
-                    break;
-                case 4:
-                    // Exit game using terminal.exit(0);
-                    break;
-                default:
-                    //Handle in case some one presses the wrong numbers?
+
+//        rend.terminal.enterPrivateMode();
+        logic.rend.terminal.enterPrivateMode();
+
+        int input;
+        drawMainMenu();
+        while (true) {
+            //Wait for a key to be pressed
+            Key key;
+            do {
+//                key = rend.terminal.readInput();
+                key = logic.rend.terminal.readInput();
             }
-        } while (playGame != 3);
+            while (key == null);
+            switch (key.getKind()) {
+                case F1:
+                    logic.gameLoop();
+                    break;
+                case F2:
+                    break;
+                case F3:
+                    break;
+                case F4:
+                    break;
+                case Escape:
+                    System.exit(0);
+            }
+            System.out.println(key.getCharacter() + " " + key.getKind());
+        }
+    }
+
+//        while (true) {
+//            do {
+//                drawMainMenu();
+//
+//                key = rend.terminal.readInput();
+//                otherKey = rend.terminal.readInput();
+//
+//
+//                switch (otherKey.getKind()) {
+//                    case ArrowDown:
+//                        logic.gameLoop();
+//                        break;
+//                    case F2:
+//                        // Look at high scores
+//                        break;
+//                    case F3:
+//                        // Get help on how to move
+//                        break;
+//                    case Escape:
+//                        System.exit(0);
+//                        break;
+//                }
+//            } while (key == null);
+//
+//        }
+//    }
+
+    public void drawMainMenu() throws InterruptedException {
+        int temp = 0;
+        char c;
+        try {
+            lines = Files.readAllLines(Paths.get("src/MainMenu"), StandardCharsets.UTF_8);
+            for (int i = 0; i < menu.length; i++) {
+                for (int y = 0; y < 70; y++) {
+                    menu[i][y] = lines.get(i).charAt(y);
+                }
+            }
+            String s = lines.get(0);
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+        for (int i = 0; i < menu.length; i++) {
+            for (int y = 0; y < 70; y++) {
+                c = menu[i][y];
+                logic.rend.terminal.moveCursor(y, i);
+                logic.rend.terminal.putCharacter(c);
+            }
+        }
 
     }
 

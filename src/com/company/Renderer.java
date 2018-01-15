@@ -65,7 +65,7 @@ public class Renderer {
     };
 
     public void start() {
-        terminal.enterPrivateMode();
+//        terminal.enterPrivateMode();
         allEnemies.add(new SmartEnemy(7, 7, "Smart"));
         allEnemies.add(new StupidEnemy(9, 7, "Stupid"));
 
@@ -107,8 +107,14 @@ public class Renderer {
         int randX = rand.nextInt(35) + 25;
         int randY = rand.nextInt(10) + 8;
         int r = rand.nextInt(2) + 1;
+        int maxEnemies = 0;
+        for(int i = 0; i < allEnemies.size(); i++){
+            if(allEnemies.get(i).isAlive)
+                maxEnemies++;
 
-        if (enemyTimer == 5 && allEnemies.size() <= 10) {
+        }
+
+        if (enemyTimer == 5 && maxEnemies <= 10) {
             if (r == 2) {
                 allEnemies.add(new SmartEnemy(randX, randY, "Smart"));
             } else {
@@ -118,7 +124,6 @@ public class Renderer {
     }
 
     public void updateEnemy() {
-
         int newPosX = 0;
         int newPosY = 0;
         for (int i = 0; i < allEnemies.size(); i++) {
