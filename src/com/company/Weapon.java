@@ -1,10 +1,24 @@
 package com.company;
 
-public class Weapon {
+public interface Weapon {
 
-    public int x = 0;
-    public int y = 0;
-    public Weapon() {
-    }
+    public int getX();
 
+    public void setX(int x);
+
+    public int getY();
+
+    public void setY(int y);
+
+    public char getC();
+
+    public void setC(char c);
+
+    public boolean isIsalive();
+
+    public void setIsalive(boolean isalive);
+
+    public int getTempPosX();
+
+    public void setTempPosX(int tempPosX);
 }

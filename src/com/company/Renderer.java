@@ -23,10 +23,13 @@ public class Renderer {
     List<String> lines = new ArrayList<String>();
     List<Archetype> allEnemies = new ArrayList<Archetype>();
     List<Powerup> allPowerups = new ArrayList<Powerup>();
+    List<Bullet> bulletList = new ArrayList<Bullet>();
+
     boolean collided = false;
     boolean isAWall = false;
     boolean attack = false;
-    public boolean enterPressed = false;
+    boolean enterPressed = false;
+    boolean enterF1 = false;
     boolean secondPassed = false;
     int meleeAttackCounter = 0;
     int enemiesInrange = 0;
@@ -85,6 +88,13 @@ public class Renderer {
             powerUpSpawner();
         }
     };
+    Timer timer4 = new Timer();
+    TimerTask task4 = new TimerTask() { // TIMER FOR ATTACKS OF ENEMIES
+        @Override
+        public void run() {
+            updateBullet();
+        }
+    };
 
     public void start() {
 //        terminal.enterPrivateMode();
@@ -100,6 +110,7 @@ public class Renderer {
         timer.scheduleAtFixedRate(task, 500, 300);
         timer2.scheduleAtFixedRate(task2, 500, 750);
         timer3.scheduleAtFixedRate(task3, 500, 5000);
+        timer4.scheduleAtFixedRate(task4, 200, 200);
     }
 
     public void readMap() {
@@ -129,18 +140,25 @@ public class Renderer {
     }
 
     public void resetGame() {
-        player.setHitPoints(20);
+        player.setHitPoints(100);
         player.setHighScore(0);
         player.setPowerUpDamage(2);
         player.setPowerUpHighScore(5);
         player.setWon(false);
         player.setLost(false);
+        player.setX(12);
+        player.setY(12);
+        ////// REMOVES ALL OBJECTS IN THE LISTS ////////
         for (Iterator<Archetype> iter = allEnemies.listIterator(); iter.hasNext(); ) {
             Archetype a = iter.next();
             iter.remove();
         }
         for (Iterator<Powerup> iter = allPowerups.listIterator(); iter.hasNext(); ) {
             Powerup a = iter.next();
+            iter.remove();
+        }
+        for (Iterator<Bullet> iter = bulletList.listIterator(); iter.hasNext(); ) {
+            Bullet a = iter.next();
             iter.remove();
         }
     }
@@ -184,6 +202,58 @@ public class Renderer {
         }
     }
 
+    ///////////// IS USED IN bullet() ///// STORES VALUES from bulletvalues(), to use in next bullet
+    public String bulletDir = "";
+    int directionX = 0;
+    int directionY = 0;
+    String direct = "";
+
+    ///////////// IS USED IN bullet() ///// STORES VALUES from bulletvalues(), to use in next bullet
+    public void bulletValues(int tempDirX, int tempDirY, String tempdirect) {
+        directionX = tempDirX;
+        directionY = tempDirY;
+        direct = tempdirect;
+    }
+
+    public void bullet() {
+        int bulletsAlive = 0;
+        for (int i = 0; i < bulletList.size(); i++) {
+            if (bulletList.get(i).isalive)
+                bulletsAlive++;
+            ///////// IF DIRECTION IS 2, set it to 1, so we can use it to look at next movement towards enemy
+            if (directionX > 1)
+                bulletList.get(i).setTempPosX(1);   // SET NEXT POS FOR BULLET to + 1 or -1, instead of 2 or -2.
+            else if (directionX < 0)             // 2 IS SO ThE BULLET FLIES OUT 1 STEP AHEAD OF THE PLAYER
+                bulletList.get(i).setTempPosX(-1);
+            if (directionY > 1)
+                bulletList.get(i).setTempPosY(1);
+            else if (directionY < 0)
+                bulletList.get(i).setTempPosY(-1);
+        }
+        direct.contains(bulletDir);
+        int maxBullets = 5;
+        if (inBounds(player.getX() + directionX, player.getY() + directionY) && enterF1 && bulletsAlive < maxBullets) {
+            bulletList.add(new Bullet(player.getX() + directionX, player.getY() + directionY, direct));
+            enterF1 = false;
+        }
+    }
+
+    public void updateBullet() {
+        for (int i = 0; i < bulletList.size(); i++) {
+            if (bulletList.get(i).direct.contains("TOP") && inBounds(bulletList.get(i).getX(), bulletList.get(i).getY() - 1)) {
+                bulletList.get(i).setY(bulletList.get(i).getY() - 1);
+            } else if (bulletList.get(i).direct.contains("BOT") && inBounds(bulletList.get(i).getX(), bulletList.get(i).getY() + 1)) {
+                bulletList.get(i).setY(bulletList.get(i).getY() + 1);
+            } else if (bulletList.get(i).direct.contains("LEFT") && inBounds(bulletList.get(i).getX() - 1, bulletList.get(i).getY())) {
+                bulletList.get(i).setX(bulletList.get(i).getX() - 1);
+            } else if (bulletList.get(i).direct.contains("RIGHT") && inBounds(bulletList.get(i).getX() + 1, bulletList.get(i).getY())) {
+                bulletList.get(i).setX(bulletList.get(i).getX() + 1);
+            } else {
+                System.out.printf("Bullet on place %s is out ", bulletList.get(i));
+                bulletList.get(i).isalive = false;
+            }
+        }
+    }
 
     public void updateEnemy() {
         int newPosX = 0;
@@ -205,7 +275,7 @@ public class Renderer {
         if (player.getHitPoints() <= 0) {
             player.setLost(true);
         }
-        if (player.getHighScore() >= 20) {
+        if (player.getHighScore() >= 500) {
             player.setWon(true);
 
         }
@@ -270,8 +340,8 @@ public class Renderer {
 
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
             map[player.getY()][player.getX()] = ' ';
-
-            if (collisionDetection()) {
+            String type = "POWERUP";
+            if (collisionDetection(type)) {
                 collectPowerUp();
             }
             player.update(newPosX, newPosY);
@@ -284,8 +354,22 @@ public class Renderer {
         map[player.getY()][player.getX()] = 'P';
         terminal.putCharacter('P');
 
+        for (int i = 0; i < bulletList.size(); i++) {
+            if (bulletList.get(i).isalive) {
+                bulletList.get(i).setC('+');
+                terminal.moveCursor(bulletList.get(i).getX(), bulletList.get(i).getY());
+                terminal.putCharacter(bulletList.get(i).getC());
+                map[bulletList.get(i).getY()][bulletList.get(i).getX()] = bulletList.get(i).getC();
+            } else {
+                bulletList.get(i).setC(' ');
+                map[bulletList.get(i).getY()][bulletList.get(i).getX()] = bulletList.get(i).getC();
+            }
+        }
+
         for (int i = 0; i < allEnemies.size(); i++) {
-            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
+            String type = "BULLET";
+            //// IF MELEEATTACK OR RANGED ATTACK (BY BULLET)
+            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive || collisionDetection(type) && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
                 player.setHighScore(player.getHighScore() + player.powerUpHighScore);
                 renderScores();
                 allEnemies.get(i).isAlive = false;
@@ -299,7 +383,7 @@ public class Renderer {
             } else {   // WHEN DEAD, REMOVE CHARACTER E
                 allEnemies.get(i).setC(' ');
                 map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = allEnemies.get(i).getC();
-                allEnemies.remove(i);
+//                allEnemies.remove(i);
             }
         }
         for (int i = 0; i < allPowerups.size(); i++) {
@@ -350,28 +434,37 @@ public class Renderer {
         terminal.clearScreen();
     }
 
-    public boolean collisionDetection() {
-//        if (map[player.getX() + player.tempPosX][player.getY() + player.tempPosY] == 'E') {
+    public boolean collisionDetection(String type) {
+//        // CHECKS ONLY FOR COLLISION WITH POWERUP
         collided = false;
-//        }
-        for (int i = 0; i < allPowerups.size(); i++) {      ////////////// ÄNDRAT 1/12
-            if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'S' && allPowerups.get(i).getType().equals("SCORE")) { // ADD player.tempPos
-                allPowerups.get(i).setPickedUp(true);
-                collided = true;
-                break;
-            } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'H' && allPowerups.get(i).getType().equals("HEALTH")) {
-                allPowerups.get(i).setPickedUp(true);
-                collided = true;
-                break;
-            } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'D' && allPowerups.get(i).getType().equals("DAMAGE")) {
-                allPowerups.get(i).setPickedUp(true);
-                collided = true;
-                break;
+        if (type.contains("POWERUP")) {
+            for (int i = 0; i < allPowerups.size(); i++) {      ////////////// ÄNDRAT 1/12
+                if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'S' && allPowerups.get(i).getType().equals("SCORE")) { // ADD player.tempPos
+                    allPowerups.get(i).setPickedUp(true);
+                    collided = true;
+                    break;
+                } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'H' && allPowerups.get(i).getType().equals("HEALTH")) {
+                    allPowerups.get(i).setPickedUp(true);
+                    collided = true;
+                    break;
+                } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'D' && allPowerups.get(i).getType().equals("DAMAGE")) {
+                    allPowerups.get(i).setPickedUp(true);
+                    collided = true;
+                    break;
+                }
+            }
+        }
+        if (type.contains("BULLET")) {
+            for (int i = 0; i < bulletList.size(); i++) {      ////////////// ÄNDRAT 1/12
+                if (map[bulletList.get(i).getY() + bulletList.get(i).getTempPosY()][bulletList.get(i).getX() + bulletList.get(i).getTempPosX()] == 'E' && bulletList.get(i).isalive) { // ADD player.tempPos
+                    bulletList.get(i).isalive = false;
+                    collided = true;
+                    break;
+                }
             }
         }
         return collided;
     }
-
 
     public boolean meleeAttack(int placeInList) {   /// CHECKS IF PLAYER/ENEMY IS IN RANGE, and PLAYER gets true attack, enemy gets true inRange
         enemiesInrange = 0;
@@ -400,11 +493,8 @@ public class Renderer {
                 }
             }
         }
-
-
         return attack;
     }
-
     ///////// FRÅN MENU ////////////////
 }
 

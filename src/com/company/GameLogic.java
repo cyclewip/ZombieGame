@@ -59,18 +59,30 @@ public class GameLogic {
             switch (key.getKind()) {
                 case ArrowDown:
                     rend.updatePlayer(0, 1);
+                    rend.bulletDir = "BOT";
+                    rend.bulletValues(0, 2, "BOT");
                     break;
                 case ArrowUp:
                     rend.updatePlayer(0, -1);
+                    rend.bulletDir = "TOP";
+                    rend.bulletValues(0, -2, "TOP");
                     break;
                 case ArrowLeft:
                     rend.updatePlayer(-1, 0);
+                    rend.bulletDir = "LEFT";
+                    rend.bulletValues(-1, 0, "LEFT");
                     break;
                 case ArrowRight:
                     rend.updatePlayer(1, 0);
+                    rend.bulletDir = "RIGHT";
+                    rend.bulletValues(2, 0, "RIGHT");
                     break;
                 case Enter:
                     rend.enterPressed = true;
+                    break;
+                case F1:
+                    rend.enterF1 = true;
+                    rend.bullet();
                     break;
                 case Escape:
                     System.exit(0);
