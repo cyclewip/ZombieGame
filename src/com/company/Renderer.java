@@ -1,7 +1,9 @@
 package com.company;
 
 import com.googlecode.lanterna.TerminalFacade;
+import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
+import javafx.scene.shape.Arc;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -15,6 +17,7 @@ import java.util.*;
 //import com.googlecode.lanterna.TextColor.ANSI;
 
 public class Renderer {
+
     Terminal terminal = TerminalFacade.createTerminal(System.in,
             System.out, Charset.forName("UTF8"));
     List<String> lines = new ArrayList<String>();
@@ -33,19 +36,20 @@ public class Renderer {
 
     Random rand = new Random();
 
+    List<Integer> ints = new ArrayList<Integer>();
+
+
     static int interval = 0;
 
 
     Player player = new Player(11, 10);
     Archetype archetype;
 
-    Powerup healthPowerUp = new HealthPowerUp(10, 10);
-    Powerup scorePowerUp = new ScorePowerUp(11, 11);
-    Powerup damagePowerUp = new DamagePowerUp(10, 12);
-
+//    Powerup healthPowerUp = new HealthPowerUp(10, 10);
+//    Powerup scorePowerUp = new ScorePowerUp(11, 11);
+//    Powerup damagePowerUp = new DamagePowerUp(10, 12);
 
     public Renderer() {
-
     }
 
     int secondsPassed = 0;
@@ -73,18 +77,29 @@ public class Renderer {
                 player.setHitPoints(player.getHitPoints() - enemiesInrange * 5);
         }
     };
+    int powerUpTimer = 0;
+    Timer timer3 = new Timer();
+    TimerTask task3 = new TimerTask() { // TIMER FOR ATTACKS OF ENEMIES
+        @Override
+        public void run() {
+            powerUpSpawner();
+        }
+    };
 
     public void start() {
 //        terminal.enterPrivateMode();
-        allEnemies.add(new SmartEnemy(7, 7, "Smart"));
-        allEnemies.add(new StupidEnemy(9, 7, "Stupid"));
+        allEnemies.add(new SmartEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Smart"));
+        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
 
+        allPowerups.add(new HealthPowerUp(10, 10));
+        allPowerups.add(new ScorePowerUp(11, 11));
+        allPowerups.add(new DamagePowerUp(12, 12));
+    }
 
-        allPowerups.add(healthPowerUp);
-        allPowerups.add(scorePowerUp);
-        allPowerups.add(damagePowerUp);
+    public void scheduleTime() {
         timer.scheduleAtFixedRate(task, 500, 300);
         timer2.scheduleAtFixedRate(task2, 500, 750);
+        timer3.scheduleAtFixedRate(task3, 500, 5000);
     }
 
     public void readMap() {
@@ -113,6 +128,43 @@ public class Renderer {
         }
     }
 
+    public void resetGame() {
+        player.setHitPoints(20);
+        player.setHighScore(0);
+        player.setPowerUpDamage(2);
+        player.setPowerUpHighScore(5);
+        player.setWon(false);
+        player.setLost(false);
+        for (Iterator<Archetype> iter = allEnemies.listIterator(); iter.hasNext(); ) {
+            Archetype a = iter.next();
+            iter.remove();
+        }
+        for (Iterator<Powerup> iter = allPowerups.listIterator(); iter.hasNext(); ) {
+            Powerup a = iter.next();
+            iter.remove();
+        }
+    }
+
+    public void powerUpSpawner() {
+        int randX = rand.nextInt(35) + 25;
+        int randY = rand.nextInt(10) + 8;
+        int r = rand.nextInt(3) + 1;
+        int maxPowerups = 0;
+        for (int i = 0; i < allPowerups.size(); i++) {
+            if (allPowerups.get(i).isPickedUp())
+                maxPowerups++;
+        }
+        if (maxPowerups <= 3) {
+            if (r == 1) {
+                allPowerups.add(new DamagePowerUp(randX, randY));
+            } else if (r == 2) {
+                allPowerups.add(new HealthPowerUp(randX, randY));
+            } else {
+                allPowerups.add(new HealthPowerUp(randX, randY));
+            }
+        }
+    }
+
     public void enemySpawner() {
         int randX = rand.nextInt(35) + 25;
         int randY = rand.nextInt(10) + 8;
@@ -121,7 +173,6 @@ public class Renderer {
         for (int i = 0; i < allEnemies.size(); i++) {
             if (allEnemies.get(i).isAlive)
                 maxEnemies++;
-
         }
 
         if (enemyTimer == 5 && maxEnemies <= 10) {
@@ -132,6 +183,7 @@ public class Renderer {
             }
         }
     }
+
 
     public void updateEnemy() {
         int newPosX = 0;
@@ -150,12 +202,13 @@ public class Renderer {
 
     public void renderScores() {
 
-             if (player.getHitPoints() <= 0) {
-                player.setLost(true);
-             }
-             if (player.getHighScore() >= 5) {
-                 player.setWon(true);
-             }
+        if (player.getHitPoints() <= 0) {
+            player.setLost(true);
+        }
+        if (player.getHighScore() >= 20) {
+            player.setWon(true);
+
+        }
 
         int hp = player.hitPoints;
         int score = player.highScore;
@@ -246,6 +299,7 @@ public class Renderer {
             } else {   // WHEN DEAD, REMOVE CHARACTER E
                 allEnemies.get(i).setC(' ');
                 map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = allEnemies.get(i).getC();
+                allEnemies.remove(i);
             }
         }
         for (int i = 0; i < allPowerups.size(); i++) {
@@ -265,6 +319,7 @@ public class Renderer {
                 terminal.moveCursor(allPowerups.get(i).getX(), allPowerups.get(i).getY());
                 terminal.putCharacter(' ');
                 map[allPowerups.get(i).getY()][allPowerups.get(i).getX()] = ' ';
+                allPowerups.remove(i);
             }
         }
         int i = 5;
@@ -349,5 +404,7 @@ public class Renderer {
 
         return attack;
     }
+
+    ///////// FRÅN MENU ////////////////
 }
 

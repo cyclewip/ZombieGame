@@ -7,8 +7,13 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        Menu menu = new Menu();
-        menu.Run();
+//        Menu menu = new Menu();
+//        menu.Run();
+//        menu.drawEverything();
+        GameLogic gameLogic = new GameLogic();
+        gameLogic.run();
+
+
 //        rend.terminal.setCursorVisible(false);
 //
 //        rend.start();
