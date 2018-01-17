@@ -68,14 +68,14 @@ public class Renderer {
                 enemyTimer = 0;
             secondsPassed++;
             enemyTimer++;
-            System.out.println("enemytimer" + enemyTimer);
+//            System.out.println("enemytimer" + enemyTimer);
         }
     };
     Timer timer2 = new Timer();
     TimerTask task2 = new TimerTask() { // TIMER FOR ATTACKS OF ENEMIES
         @Override
         public void run() {
-            System.out.println("attacked");
+//            System.out.println("attacked");
             if (player.getHitPoints() > 0 && enemiesInrange > 0)
                 player.setHitPoints(player.getHitPoints() - enemiesInrange * 5);
         }
@@ -98,8 +98,11 @@ public class Renderer {
 
     public void start() {
 //        terminal.enterPrivateMode();
-        allEnemies.add(new SmartEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Smart"));
-        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
+//        allEnemies.add(new SmartEnemy(rand.nextInt(10) + 4, rand.nextInt(10) + 5, "Smart"));
+//        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
+        allEnemies.add(new SmartEnemy(10, 10, "Smart"));
+        allEnemies.add(new StupidEnemy(11,11, "Stupid"));
+//        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
 
         allPowerups.add(new HealthPowerUp(10, 10));
         allPowerups.add(new ScorePowerUp(11, 11));
@@ -110,7 +113,7 @@ public class Renderer {
         timer.scheduleAtFixedRate(task, 500, 300);
         timer2.scheduleAtFixedRate(task2, 500, 750);
         timer3.scheduleAtFixedRate(task3, 500, 5000);
-        timer4.scheduleAtFixedRate(task4, 200, 200);
+        timer4.scheduleAtFixedRate(task4, 200, 75);
     }
 
     public void readMap() {
@@ -249,7 +252,7 @@ public class Renderer {
             } else if (bulletList.get(i).direct.contains("RIGHT") && inBounds(bulletList.get(i).getX() + 1, bulletList.get(i).getY())) {
                 bulletList.get(i).setX(bulletList.get(i).getX() + 1);
             } else {
-                System.out.printf("Bullet on place %s is out ", bulletList.get(i));
+//                System.out.printf("Bullet on place %s is out ", bulletList.get(i));
                 bulletList.get(i).isalive = false;
             }
         }
@@ -341,7 +344,7 @@ public class Renderer {
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
             map[player.getY()][player.getX()] = ' ';
             String type = "POWERUP";
-            if (collisionDetection(type)) {
+            if (collisionDetection(type, 0)) {
                 collectPowerUp();
             }
             player.update(newPosX, newPosY);
@@ -349,7 +352,6 @@ public class Renderer {
     }
 
     public void renderStuff() {
-
         terminal.moveCursor(player.getX(), player.getY());
         map[player.getY()][player.getX()] = 'P';
         terminal.putCharacter('P');
@@ -368,10 +370,13 @@ public class Renderer {
 
         for (int i = 0; i < allEnemies.size(); i++) {
             String type = "BULLET";
+
             //// IF MELEEATTACK OR RANGED ATTACK (BY BULLET)
-            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive || collisionDetection(type) && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
+             int specificEnemy = i;     /// USED IN collisionDetection for specific enemy colliding with bullet
+            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive || collisionDetection(type, specificEnemy) && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
                 player.setHighScore(player.getHighScore() + player.powerUpHighScore);
                 renderScores();
+                System.out.println(allEnemies.get(i));
                 allEnemies.get(i).isAlive = false;
                 enterPressed = false;
             }
@@ -383,7 +388,6 @@ public class Renderer {
             } else {   // WHEN DEAD, REMOVE CHARACTER E
                 allEnemies.get(i).setC(' ');
                 map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = allEnemies.get(i).getC();
-//                allEnemies.remove(i);
             }
         }
         for (int i = 0; i < allPowerups.size(); i++) {
@@ -429,12 +433,11 @@ public class Renderer {
     public void draw() {
 
     }
-
     public void clear() {
         terminal.clearScreen();
     }
 
-    public boolean collisionDetection(String type) {
+    public boolean collisionDetection(String type, int specificEnemy) {
 //        // CHECKS ONLY FOR COLLISION WITH POWERUP
         collided = false;
         if (type.contains("POWERUP")) {
@@ -457,7 +460,7 @@ public class Renderer {
         if (type.contains("BULLET")) {
             for (int i = 0; i < bulletList.size(); i++) {      ////////////// ÄNDRAT 1/12
                 if (map[bulletList.get(i).getY() + bulletList.get(i).getTempPosY()][bulletList.get(i).getX() + bulletList.get(i).getTempPosX()] == 'E' && bulletList.get(i).isalive) { // ADD player.tempPos
-                    bulletList.get(i).isalive = false;
+                        bulletList.get(i).isalive = false;
                     collided = true;
                     break;
                 }

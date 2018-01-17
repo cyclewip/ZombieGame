@@ -70,7 +70,7 @@ public class GameLogic {
                 case ArrowLeft:
                     rend.updatePlayer(-1, 0);
                     rend.bulletDir = "LEFT";
-                    rend.bulletValues(-1, 0, "LEFT");
+                    rend.bulletValues(-2, 0, "LEFT");
                     break;
                 case ArrowRight:
                     rend.updatePlayer(1, 0);
@@ -90,9 +90,7 @@ public class GameLogic {
             }
             System.out.println(key.getCharacter() + " " + key.getKind());
         }
-
     }
-
     /////////// FROM MENU //////////////
     List<String> linesMenu = new ArrayList<String>();
     char[][] menu = new char[24][70];
