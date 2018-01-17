@@ -100,10 +100,10 @@ public class Renderer {
 //        terminal.enterPrivateMode();
 //        allEnemies.add(new SmartEnemy(rand.nextInt(10) + 4, rand.nextInt(10) + 5, "Smart"));
 //        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
-        allEnemies.add(new StupidEnemy(13, 13, "Smart"));
-        allEnemies.add(new StupidEnemy(13, 20, "Smart"));
-        allEnemies.add(new StupidEnemy(13, 21, "Smart"));
-        allEnemies.add(new StupidEnemy(13, 22, "Smart"));
+        allEnemies.add(new StupidEnemy(16, 14, "Smart"));
+//        allEnemies.add(new StupidEnemy(13, 20, "Smart"));
+//        allEnemies.add(new StupidEnemy(13, 21, "Smart"));
+//        allEnemies.add(new StupidEnemy(13, 22, "Smart"));
 //        allEnemies.add(new StupidEnemy(13, 23, "Smart"));
 
 //        allEnemies.add(new StupidEnemy(1, 11, "Stupid"));
