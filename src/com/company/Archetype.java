@@ -54,7 +54,7 @@ public abstract class Archetype {
         return isAlive;
     }
 //    public abstract void spawner(Archetype e, Renderer rend);
-    public abstract void pattern(Player player, Archetype e);
+    public abstract void pattern(Player player, Archetype e,  int randNumb);
 
     public void setAlive(boolean alive) {
         isAlive = alive;

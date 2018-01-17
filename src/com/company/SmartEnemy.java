@@ -7,17 +7,20 @@ import java.util.List;
 
 public class SmartEnemy extends Archetype {
     Random random = new Random();
-//    int x = 0;
+    //    int x = 0;
 //    int y = 0;
     String type = "Smart";
     boolean isAlive = true;
     int hitPoints = 10;
+
+    //    public int tempPosX = 0;
+//    public int tempPosY = 0;
     public SmartEnemy(int x, int y, String type) {
         super(x, y, type);
         this.type = type;
     }
 
-    public void pattern(Player player, Archetype e) {
+    public void pattern(Player player, Archetype e, int randNumb) {
         int randomNum = random.nextInt(2) + 1;
         int x;
         int y;
@@ -68,6 +71,7 @@ public class SmartEnemy extends Archetype {
             e.setY(y);
         }
     }
+
     @Override
     public int getX() {
         return x;
@@ -87,6 +91,7 @@ public class SmartEnemy extends Archetype {
     public void setY(int y) {
         this.y = y;
     }
+
     public void update(int tempPosX, int tempPosY) {
         x += tempPosX;
         y += tempPosY;

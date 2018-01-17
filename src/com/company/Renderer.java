@@ -62,7 +62,7 @@ public class Renderer {
         @Override
         public void run() {
             updateEnemy();
-            enemySpawner();
+//            enemySpawner();
             enemyTimer++;
             if (enemyTimer >= 15)
                 enemyTimer = 0;
@@ -100,8 +100,18 @@ public class Renderer {
 //        terminal.enterPrivateMode();
 //        allEnemies.add(new SmartEnemy(rand.nextInt(10) + 4, rand.nextInt(10) + 5, "Smart"));
 //        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
-        allEnemies.add(new SmartEnemy(10, 10, "Smart"));
-        allEnemies.add(new StupidEnemy(11,11, "Stupid"));
+        allEnemies.add(new StupidEnemy(13, 13, "Smart"));
+        allEnemies.add(new StupidEnemy(13, 20, "Smart"));
+        allEnemies.add(new StupidEnemy(13, 21, "Smart"));
+        allEnemies.add(new StupidEnemy(13, 22, "Smart"));
+//        allEnemies.add(new StupidEnemy(13, 23, "Smart"));
+
+//        allEnemies.add(new StupidEnemy(1, 11, "Stupid"));
+//        allEnemies.add(new StupidEnemy(1, 12, "Stupid"));
+//        allEnemies.add(new StupidEnemy(1, 13, "Stupid"));
+//        allEnemies.add(new StupidEnemy(1, 14, "Stupid"));
+//        allEnemies.add(new StupidEnemy(1, 15, "Stupid"));
+
 //        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
 
         allPowerups.add(new HealthPowerUp(10, 10));
@@ -261,26 +271,45 @@ public class Renderer {
     public void updateEnemy() {
         int newPosX = 0;
         int newPosY = 0;
+        int randomNum = 0;
+        int currentEnemy = 0;
+        String type = "WALL";
         for (int i = 0; i < allEnemies.size(); i++) {
-            if (inBounds(allEnemies.get(i).getX() + newPosX, allEnemies.get(i).getY() + newPosY)) { // KOLLA NÄSTA POSITION!!! HAR EJ GJORTS
-                if (allEnemies.get(i).type.contains("Stupid")) {
-                    allEnemies.get(i).pattern(player, allEnemies.get(i));
-                    map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = 'E';
-                } else if (allEnemies.get(i).type.equals("Smart")) {
-                    allEnemies.get(i).pattern(player, allEnemies.get(i));
+            randomNum = rand.nextInt(4) + 1;
+            if (randomNum == 1)
+                newPosX = -1;
+            else if (randomNum == 2)
+                newPosX = 1;
+            else if (randomNum == 3)
+                newPosY = 1;
+            else
+                newPosY = -1;
+
+            if (inBounds(allEnemies.get(i).getX() + newPosX, allEnemies.get(i).getY() + newPosY)) {
+                allEnemies.get(i).tempPosX = newPosX;
+                allEnemies.get(i).tempPosY = newPosY;
+                boolean isIt2 = collided;
+                if (!collisionDetection("WALL", 0)) {
+                    if (allEnemies.get(i).type.contains("Stupid")) {
+                        allEnemies.get(i).pattern(player, allEnemies.get(i), randomNum);
+                        map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = 'E';
+                    } else if (allEnemies.get(i).type.equals("Smart")) {
+                        allEnemies.get(i).pattern(player, allEnemies.get(i), randomNum);
+//                        map[allEnemies.get(i).getY()][allEnemies.get(i).getX()] = 'E'; // VILL VI INTE HA ETT E HÄR OCKSÅ?
+                    }
                 }
             }
+            newPosX = 0;
+            newPosY = 0;
         }
     }
 
     public void renderScores() {
-
         if (player.getHitPoints() <= 0) {
             player.setLost(true);
         }
         if (player.getHighScore() >= 500) {
             player.setWon(true);
-
         }
 
         int hp = player.hitPoints;
@@ -342,12 +371,13 @@ public class Renderer {
         player.tempPosY = newPosY;
 
         if (inBounds(player.getX() + newPosX, player.getY() + newPosY)) {
-            map[player.getY()][player.getX()] = ' ';
-            String type = "POWERUP";
-            if (collisionDetection(type, 0)) {
+            if (collisionDetection("POWERUP", 0)) {
                 collectPowerUp();
+            } else if (!collisionDetection("WALL", 0)) {
+                map[player.getY()][player.getX()] = ' ';
+                player.update(newPosX, newPosY);
             }
-            player.update(newPosX, newPosY);
+
         }
     }
 
@@ -372,8 +402,8 @@ public class Renderer {
             String type = "BULLET";
 
             //// IF MELEEATTACK OR RANGED ATTACK (BY BULLET)
-             int specificEnemy = i;     /// USED IN collisionDetection for specific enemy colliding with bullet
-            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive || collisionDetection(type, specificEnemy) && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
+            int specificEnemy = i;     /// USED IN collisionDetection for specific enemy colliding with bullet
+            if (meleeAttack(i) && enterPressed && allEnemies.get(i).isAlive || collisionDetection(type, 0) && allEnemies.get(i).isAlive) {    //// AFTER MELEE ATTACK and ENTER IS PRESSED, ENEMY DIES
                 player.setHighScore(player.getHighScore() + player.powerUpHighScore);
                 renderScores();
                 System.out.println(allEnemies.get(i));
@@ -433,11 +463,12 @@ public class Renderer {
     public void draw() {
 
     }
+
     public void clear() {
         terminal.clearScreen();
     }
 
-    public boolean collisionDetection(String type, int specificEnemy) {
+    public boolean collisionDetection(String type, int currentEnemy) {
 //        // CHECKS ONLY FOR COLLISION WITH POWERUP
         collided = false;
         if (type.contains("POWERUP")) {
@@ -455,15 +486,23 @@ public class Renderer {
                     collided = true;
                     break;
                 }
+
             }
         }
         if (type.contains("BULLET")) {
             for (int i = 0; i < bulletList.size(); i++) {      ////////////// ÄNDRAT 1/12
                 if (map[bulletList.get(i).getY() + bulletList.get(i).getTempPosY()][bulletList.get(i).getX() + bulletList.get(i).getTempPosX()] == 'E' && bulletList.get(i).isalive) { // ADD player.tempPos
-                        bulletList.get(i).isalive = false;
+                    bulletList.get(i).isalive = false;
                     collided = true;
                     break;
                 }
+            }
+        }
+        if (type.contains("WALL")) {////////////// ÄNDRAT 1/12
+            if (map[allEnemies.get(currentEnemy).getY() + allEnemies.get(currentEnemy).getTempPosY()][allEnemies.get(currentEnemy).getX() + allEnemies.get(currentEnemy).getTempPosX()] == 'W') {
+                collided = true;
+            } else if (map[player.getY() + player.getTempPosY()][player.getX() + player.getTempPosX()] == 'W') {
+                collided = true;
             }
         }
         return collided;

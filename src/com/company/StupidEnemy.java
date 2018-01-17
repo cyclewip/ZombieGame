@@ -9,6 +9,8 @@ public class StupidEnemy extends Archetype {
 //    int y = 0;
     String type = "Stupid";
     boolean isAlive = true;
+//    public int tempPosX = 0;
+//    public int tempPosY = 0;
     public StupidEnemy(int x, int y, String type) {
         super(x, y, type);
         this.type = type;
@@ -34,29 +36,24 @@ public class StupidEnemy extends Archetype {
         this.y = y;
     }
 
-    public void pattern(Player player, Archetype e) {
+    public void pattern(Player player, Archetype e, int randNumb) {
 
-        int randomNum = random.nextInt(4) + 1;
+//        int randomNum = random.nextInt(4) + 1;
         int x;
         int y;
-        if (randomNum == 1) {
+        if (randNumb == 1) {
             x = e.getX() - 1;
             e.setX(x);
-        } else if (randomNum == 2) {
+        } else if (randNumb == 2) {
             x = e.getX() + 1;
             e.setX(x);
-        } else if (randomNum == 3) {
-            y = e.getY() - 1;
+        } else if (randNumb == 3) {
+            y = e.getY() + 1;
             e.setY(y);
         } else {
-            y = e.getY() + 1;
+            y = e.getY() - 1;
             e.setY(y);
         }
 
     }
-//    public void spawner(List<Archetype> allEnemies, Renderer rend){
-//        if(rend.enemyTimer == 5){
-//            allEnemies.add(new SmartEnemy(random.nextInt(35) + 25,random.nextInt(12) + 6, "Smart"));
-//        }
-//    }
 }
