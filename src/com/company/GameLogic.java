@@ -1,6 +1,8 @@
 package com.company;
 
 import com.googlecode.lanterna.input.Key;
+import com.googlecode.lanterna.terminal.Terminal;
+
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -15,14 +17,15 @@ public class GameLogic {
     Renderer rend = new Renderer();
     boolean wonOrLost = false;
     boolean anotherGame = false;
+
     public void gameLoop() throws InterruptedException {
         Random rand = new Random();
 
-        if(!anotherGame) {
+        if (!anotherGame) {
             rend.scheduleTime();
         }
-            rend.terminal.setCursorVisible(false);
-            rend.start();
+        rend.terminal.setCursorVisible(false);
+        rend.start();
 
 
         while (true) {
@@ -91,6 +94,7 @@ public class GameLogic {
             System.out.println(key.getCharacter() + " " + key.getKind());
         }
     }
+
     /////////// FROM MENU //////////////
     List<String> linesMenu = new ArrayList<String>();
     char[][] menu = new char[24][70];
@@ -105,7 +109,9 @@ public class GameLogic {
     public void run() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
 
-        if(!anotherGame){
+        rend.terminal.applyForegroundColor(Terminal.Color.YELLOW);
+
+        if (!anotherGame) {
             rend.terminal.enterPrivateMode();
         }
 
@@ -139,6 +145,11 @@ public class GameLogic {
                         menuType = "HIGHSCORE";
                         okay = false;
                         drawEverything();
+                    } else {
+                        menuType = "ENDCREDITS";
+                        drawEverything();
+                        Thread.sleep(5000);
+                        System.exit(0);
                     }
                     break;
                 case F3:

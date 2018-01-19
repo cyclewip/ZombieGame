@@ -5,7 +5,15 @@ import java.security.Key;
 public class Player {
     public int x = 0;
     public int y = 0;
+    public char c = 0x263B;
 
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
 
     public int getPowerUpHighScore() {
         return powerUpHighScore;
@@ -114,7 +122,7 @@ public class Player {
         this.y = y;
     }
 
-    public void update(int tempPosX, int tempPosY){
+    public void update(int tempPosX, int tempPosY) {
         this.tempPosX = tempPosX;
         this.tempPosY = tempPosY;
         x += tempPosX;

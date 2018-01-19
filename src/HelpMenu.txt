@@ -3,21 +3,21 @@
 |                         ZOMBIE APOCALYPSE                          |
 ----------------------------------------------------------------------
 |                                                                    |
+|                               HELP MENU                            |
 |                                                                    |
-|                             HELP MENU                              |
+|                       USE ARROW KEYS TO MOVE AROUND                |
 |                                                                    |
+|                       PRESS ENTER TO HIT ENEMY                     |
 |                                                                    |
+|                       PRESS F1 TO SHOOT AT ENEMIES                 |
 |                                                                    |
-|                    USE THE THE ARROW KEYS TO MOVE                  |
+|                       COLLECT * TO GET EXTRA DAMAGE                |
 |                                                                    |
-|                      PRESS ENTER TO HIT ZOMBIES                    |
+|                       COLLECT ♥ TO RECOVER                         |
 |                                                                    |
+|                       COLLECT @ TO GET EXTRA SCORE PER KILL        |
 |                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                             F1. BACK                               |
-|                                                                    |
+|                                F1. BACK                            |
 ----------------------------------------------------------------------
 |                       Choose back to continue                      |
 |                               . . .                                |

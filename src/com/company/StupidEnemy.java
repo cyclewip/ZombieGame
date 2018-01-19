@@ -5,11 +5,12 @@ import java.util.Random;
 
 public class StupidEnemy extends Archetype {
     Random random = new Random();
-//    int x = 0;
+    //    int x = 0;
 //    int y = 0;
     String type = "Stupid";
     boolean isAlive = true;
-//    public int tempPosX = 0;
+
+    //    public int tempPosX = 0;
 //    public int tempPosY = 0;
     public StupidEnemy(int x, int y, String type) {
         super(x, y, type);
@@ -34,6 +35,14 @@ public class StupidEnemy extends Archetype {
     @Override
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void isPatternOK(Player player, Archetype e, int randNumb) {
+        // NEVER USED HERE
+    }
+
+    public void pattern2(Archetype e, int newPosX, int newPosY) {
+// NEVER USED HERE
     }
 
     public void pattern(Player player, Archetype e, int randNumb) {

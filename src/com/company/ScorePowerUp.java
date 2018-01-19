@@ -4,6 +4,16 @@ public class ScorePowerUp implements Powerup{
     public int x = 0;
     public int y = 0;
     public String type = "SCORE";
+    char c = '@';
+
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
+
     boolean pickedUp = false;
 
     public boolean isPickedUp() {

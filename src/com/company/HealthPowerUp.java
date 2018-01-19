@@ -5,7 +5,14 @@ public class HealthPowerUp implements Powerup{
     public int y = 0;
     public String type = "HEALTH";
     boolean pickedUp = false;
+    char c = '\u2764';
+    public char getC() {
+        return c;
+    }
 
+    public void setC(char c) {
+        this.c = c;
+    }
     public boolean isPickedUp() {
         return pickedUp;
     }
