@@ -46,7 +46,6 @@ public class StupidEnemy extends Archetype {
     }
 
     public void pattern(Player player, Archetype e, int randNumb) {
-
 //        int randomNum = random.nextInt(4) + 1;
         int x;
         int y;

@@ -6,7 +6,7 @@
 |                                                                    |
 |                                                                    |
 |                                                                    |
-|                          Q              Q                          |
+|                                                                    |
 |          QQQQQQQ QQQQQQQQQ              QQQQQQQQQ QQQQQQQ          |
 |                                                                    |
 |                                                                    |
@@ -14,7 +14,7 @@
 |                                                                    |
 |                                                                    |
 |                                                                    |
-|        Q          QQQQQQQQ              QQQQQQQQ       Q           |
+|        Q                                               Q           |
 |        Q                                               Q           |
 |        Q                                               Q           |
 |        Q                                               Q           |

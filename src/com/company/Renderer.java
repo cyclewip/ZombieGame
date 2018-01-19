@@ -63,7 +63,7 @@ public class Renderer {
         @Override
         public void run() {
             updateEnemy();
-//            enemySpawner();
+            enemySpawner();
             enemyTimer++;
             if (enemyTimer >= 15)
                 enemyTimer = 0;
@@ -101,10 +101,10 @@ public class Renderer {
 //        terminal.enterPrivateMode();
 //        allEnemies.add(new SmartEnemy(rand.nextInt(10) + 4, rand.nextInt(10) + 5, "Smart"));
 //        allEnemies.add(new StupidEnemy(rand.nextInt(10) + 5, rand.nextInt(10) + 5, "Stupid"));
-        allEnemies.add(new SmartEnemy(12, 8, "Smart"));
-        allEnemies.add(new StupidEnemy(12, 9, "Stupid"));
-        allEnemies.add(new StupidEnemy(12, 10, "Stupid"));
-        allEnemies.add(new StupidEnemy(12, 11, "Stupid"));
+        allEnemies.add(new SmartEnemy(25, 15, "Smart"));
+        allEnemies.add(new StupidEnemy(25, 15, "Stupid"));
+//        allEnemies.add(new StupidEnemy(12, 10, "Stupid"));
+//        allEnemies.add(new StupidEnemy(12, 11, "Stupid"));
 
 //        allEnemies.add(new StupidEnemy(1, 11, "Stupid"));
 //        allEnemies.add(new StupidEnemy(1, 12, "Stupid"));
@@ -155,15 +155,12 @@ public class Renderer {
                     terminal.applyForegroundColor(Terminal.Color.WHITE);
                     terminal.putCharacter('█');
                 }
-
-
             }
-
         }
     }
 
     public void resetGame() {
-        player.setHitPoints(100);
+        player.setHitPoints(50);
         player.setHighScore(0);
         player.setPowerUpDamage(2);
         player.setPowerUpHighScore(5);
@@ -325,7 +322,7 @@ public class Renderer {
         if (player.getHitPoints() <= 0) {
             player.setLost(true);
         }
-        if (player.getHighScore() >= 500) {
+        if (player.getHighScore() >= 20) {
             player.setWon(true);
         }
         int hp = player.hitPoints;
@@ -416,10 +413,8 @@ public class Renderer {
                 map[bulletList.get(i).getY()][bulletList.get(i).getX()] = bulletList.get(i).getC();
             }
         }
-
         for (int i = 0; i < allEnemies.size(); i++) {
             String type = "BULLET";
-
             terminal.applyForegroundColor(255, 0, 255);
 
             //// IF MELEEATTACK OR RANGED ATTACK (BY BULLET)
@@ -443,7 +438,6 @@ public class Renderer {
         }
         for (int i = 0; i < allPowerups.size(); i++) {
             terminal.applyForegroundColor(0, 255, 0);
-
             if (!allPowerups.get(i).isPickedUp()) {
                 terminal.moveCursor(allPowerups.get(i).getX(), allPowerups.get(i).getY());
                 if (allPowerups.get(i).getType().equals("HEALTH")) {
